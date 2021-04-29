@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta charset="UTF-8" />
+	<head th:replace="layouts/templateLogin::head">
+	
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+	
+
+
+	
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js">
+	
+    
+	</head>
+	
+<style>
+tr.hide-table-padding td {
+  padding: 0;
+}
+
+.expand-button {
+	position: relative;
+}
+
+.accordion-toggle .expand-button:after
+{
+  position: absolute;
+  left:.75rem;
+  top: 50%;
+  transform: translate(0, -50%);
+  content: '-';
+}
+.accordion-toggle.collapsed .expand-button:after
+{
+  content: '';
+}
+.estilo-archivo{
+ 		list-style: none;border: 1px solid black; border-radius: .3em; padding: 2% 3%; width: 20%; font-size: 11px;text-align:center;float:left; margin-left: 2px;
+ 	}
+ .recortar{
+      	display: inline-block;
+	    width: 50px;
+	    white-space: nowrap;
+	    overflow: hidden !important;
+	    text-overflow: ellipsis;
+ 	}
+ 	
+td.details-control {
+    background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+}
+div.dataTables_wrapper  div.dataTables_filter {
+  width: 100%;
+  float: none;
+  text-align: left;
+  margin-left: 0 px;
+  font-size:20px;
+}
+div.dataTables_wrapper div.dt-buttons {
+  float:right;
+}
+	</style>
+	<body>
+
+		<div th:replace="layouts/templateLogin::header"></div>
+		<div th:replace="layouts/templateLogin::menu"></div>
+	
+		<div id="content" class="container-fluid">			
+					<br>
+					<div class="row" style="background:#f5f5f5;">
+						<div class="col-lg-12">	
+			 				<div class="mail-box">
+				 				<div class="form-body">
+								        <h4 class="box-title" style="color: #346187 !important; font-size: 18px; font-weight: 400; text-shadow: 0 0 0.125rem #ffffff;">
+						                	<i class="fad fa-cogs"></i> <a href="#">Reporte de Validaciones</a>
+						                </h4>
+						                <hr class="m-t-0 m-b-30">
+						                
+						                <div>
+						                	
+											<div class="tab-content" id="nav-tabContent" style="margin-top: -40px;">
+											  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+											 										  
+											  <!--	<button class="btn btn-info  pull-right btn-lg"  onClick="reporte()">Obtener Reporte</button>-->
+											  	
+											  	<br>
+								
+									<!--div class="form-row">
+										<div class="form-group col-md-4">
+											<label for="correo">Sociedad:</label> 
+											<input type="text" class="form-control" id="correo" name="correo">
+										</div>
+										
+									</div-->
+								<form id="form-conte">
+									<div class="form-row" >
+									
+										<div class="form-group col-md-4">
+											<label for="correo">Sociedad:</label> 
+											 <select class="custom-select my-1 mr-sm-2" id="sociedad" name="sociedad">
+											    <option value="">Todos</option>
+											    <option th:each="empresa : ${empresas}" 
+									                th:value="${empresa.nombre}"
+									                th:text="${empresa.nombre}"></option>
+											  </select>
+										</div>
+										
+										<div class="form-group col-lg-3">
+											<label for="mes">Estado:</label>
+											<select class="custom-select my-1 mr-sm-2"  id="estado" name="estado">
+												<option value="">Todos</option>
+												<option value="002">Contabilizado</option>
+												<option value="001">Por Contabilizar</option>
+												<option value="005">Error</option>
+		
+											</select>
+										</div>
+										<div class="form-group col-lg-3">
+											<label for="fecha_ini">Fecha Inicio</label> 
+											<input type="date" class="form-control" id="fecha_ini" name="fecha_ini">
+										</div>										
+									</div>		
+									
+									Actualizar   <button type="submit" class="btn btn-info" name="buscar" id="buscar"
+											value="Buscar"><i class="fad fa-sync-alt"> </i> </button> 
+								</form>
+							<br>
+											  	
+											  	
+											  		<div class="table-responsive" id="contenedor-correo" style="overflow:scroll;height:500px">
+												  	<table class="table table-inbox table-hover header-fixed" id="tabla_contenido" >
+												  		<thead style="text-align: center;background: white;font-size: 12px;">
+												  			
+												  			<tr class="accordion-toggle collapsed" style="background: #c9d8e7 ;">										  				
+												  				<th  style="vertical-align:middle;width: 50px;">Detalle</th>
+												  				<th  style="vertical-align:middle;width: 10px;">Sociedad</th>
+												  				<th  style="vertical-align:middle;width: 100px;">Razón Social</th>
+												  				<th  style="vertical-align:middle;width: 100px;">RUC</th>
+												  				<th>Tipo</th>
+												  				<th>N° Comprob.</th>
+												  				<th>Recepción Documentos</th>
+												  					<th>Validación SUNAT</th>
+																	<th >Validación SAP</th>
+												  				<th>Estado</th>
+												  			</tr>
+												  			
+												  		</thead>
+												  		<tbody style="font-size: 11px;text-align: center;">
+												  		</tbody>
+												  	</table>
+												  </div>
+											  	
+											  </div>											
+											 
+											</div>
+						                </div>					                
+						            	<br>
+						            	<br>																		        
+				                </div> 				
+			 				</div>
+						</div>
+					</div>
+				</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h3 class="modal-title" id="exampleModalLabel">Detalle de Validación</h3>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+
+					<div class="message-body estilo-scroll"
+						style="text-align: justify; font-size: 12px; max-height: 410px; overflow-y: auto;">
+						<div class="sender-details">
+							<div class="details">
+								<h2>
+									<strong id="asunto"></strong>
+								</h2>
+
+								<p class="sender-email" id="sender"></p>
+
+								<p class="msg-subject pull-left" id="fecha_email"></p>
+								<p id="hora_email" class="pull-right"></p>
+								<br>
+
+							</div>
+						</div>
+						<div class="message-content" id="cuerpo_email"></div>
+
+						<hr>
+						<div class="attachments-sections">
+							<ul id="archivos_email"></ul>
+						</div>
+						<br clear="all"> <strong id="mensaje_estado_validacion"></strong>
+
+						<div id="detalle_verificacion_xml" style="display: none;">
+							<hr>
+
+							<strong>Comprobación XML:</strong>
+							<table>
+								<tr>
+									<td>Estado Comprobante :</td>
+									<td><span class="badge badge-success" id="es_com"></span></td>
+								</tr>
+								<tr>
+									<td>Estado Contribuyente :</td>
+									<td><span class="badge badge-success" id="es_con"></span></td>
+								</tr>
+								<tr>
+									<td>Condición Contribuyente :</td>
+									<td><span class="badge badge-success" id="cond_con"></span></td>
+								</tr>
+							</table>
+
+						</div>
+
+						<div id="detalle_validaciones" style="display: none;">
+							<hr>
+
+							<table>
+								<tr>
+									<td>Validación Documentos PDF :</td>
+									<td id="td_val_pdf"></td>
+								</tr>
+								<tr>
+									<td>Validación XML</td>
+									<td id="td_val_xml"></td>
+								</tr>
+								<tr>
+									<td>Validacion SAP :</td>
+									<td id="td_val_sap"></td>
+								</tr>
+							</table>
+
+						</div>
+						<hr>
+					</div>
+
+				</div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		        
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.colVis.min.js"></script>
+
+
+
+		<footer th:replace="layouts/templateLogin::footer"></footer>
+		<script th:src="@{/plugins/js/script_reconte.js}" ></script>
+		
+	</body>
+	
+	
+</html>

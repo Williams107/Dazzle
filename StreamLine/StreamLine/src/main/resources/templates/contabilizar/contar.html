@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta charset="UTF-8" />
+	<head th:replace="layouts/templateLogin::head"></head>
+	<style>
+		.estilo-archivo{
+ 			list-style: none;border: 1px solid black; border-radius: .3em; padding: 2% 3%; width: 20%; font-size: 11px;text-align:center;float:left; margin-left: 2px;
+		 }
+		 .recortar{
+		   	display: inline-block;
+		    width: 50px;
+		    white-space: nowrap;
+		    overflow: hidden !important;
+		    text-overflow: ellipsis;
+		 }
+		 td.details-control {
+		    background: url('/Dazzle/images/down-arrow.png') no-repeat center center;
+		    cursor: pointer;
+		    background-size: 15px 10px;
+		}
+		tr.shown td.details-control {
+		    background: url('/Dazzle/images/upload.png') no-repeat center center;
+		    background-size: 15px 10px;
+		}
+		
+		.no-padding{
+			padding: 0px;
+		}
+	</style>
+	<body>
+
+		<div th:replace="layouts/templateLogin::header"></div>
+		<div th:replace="layouts/templateLogin::menu"></div>
+	
+		<div id="content" class="container-fluid">			
+			<br>
+			<div class="row" style="background:#f5f5f5;">
+				<div class="col-lg-12">	
+	 				<div class="mail-box">
+					<div class="form-body">
+						<h4 class="box-title"
+							style="color: #346187 !important; font-size: 18px; font-weight: 400; text-shadow: 0 0 0.125rem #ffffff;">
+							<i class="fad fa-cogs"></i> <a href="#">Contabilizar Facturas</a>
+						</h4>
+						<hr class="m-t-0 m-b-30">
+						<div class="nav-container">
+
+
+							<button class="btn btn-lg btn-info pull-right" onClick="reporte()">Obtener
+								Pendientes</button>
+							<br clear="all"> <br clear="all">
+
+							<div class="table-responsive">
+								<table class="table table-bordered" id="tabla_contabilizar">
+									<thead
+										style="text-align: center; font-size: 11px;">
+										<tr style="text-align: center;">
+											<th style="height: 40px;vertical-align: middle;" >DETALLE</th>
+											<th 
+												style="height: 40px;vertical-align: middle;">TIPO</th>
+											<th 
+												style="height: 40px;vertical-align: middle;">SOCIEDAD</th>
+											<th
+												style="height: 40px;vertical-align: middle;">N° DOC.</th>
+											<th 
+												style="height: 40px;vertical-align: middle;">N° PEDIDO
+												</th>
+											<th style="height: 40px;vertical-align: middle;">N°	FACTURA</th>
+											<th style="height: 40px;width: 70px;vertical-align: middle;" >FECHA</th>
+											<th style="height: 40px;vertical-align: middle;">IMPORTE</th>
+											<th style="height: 40px;vertical-align: middle;">IMPORTE BASE</th>
+											<th style="height: 40px;vertical-align: middle;">IGV</th>
+											<th style="height: 40px;vertical-align: middle;">TOTAL</th>
+											<th style="height: 40px;vertical-align: middle;">IMPUESTOS</th>
+											<th style="height: 40px;vertical-align: middle;">HES/HEM</th>
+										</tr>										
+									</thead>
+									<tbody style="font-size: 13px;text-align:center;">
+									</tbody>
+								</table>
+								<br>
+								<br>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h3 class="modal-title" id="exampleModalLabel">Detalle de Validación</h3>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+
+					<div class="message-body estilo-scroll"
+						style="text-align: justify; font-size: 12px; max-height: 410px; overflow-y: auto;">
+						<div class="sender-details">
+							<div class="details">
+								<h2>
+									<strong id="asunto"></strong>
+								</h2>
+
+								<p class="sender-email" id="sender"></p>
+
+								<p class="msg-subject pull-left" id="fecha_email"></p>
+								<p id="hora_email" class="pull-right"></p>
+								<br>
+
+							</div>
+						</div>
+						<div class="message-content" id="cuerpo_email"></div>
+
+						<hr>
+						<div class="attachments-sections">
+							<ul id="archivos_email"></ul>
+						</div>
+						<br clear="all"> <strong id="mensaje_estado_validacion"></strong>
+
+						<div id="detalle_verificacion_xml" style="display: none;">
+							<hr>
+
+							<strong>Comprobación XML:</strong>
+							<table>
+								<tr>
+									<td>Estado Comprobante :</td>
+									<td><span class="badge badge-success" id="es_com"></span></td>
+								</tr>
+								<tr>
+									<td>Estado Contribuyente :</td>
+									<td><span class="badge badge-success" id="es_con"></span></td>
+								</tr>
+								<tr>
+									<td>Condición Contribuyente :</td>
+									<td><span class="badge badge-success" id="cond_con"></span></td>
+								</tr>
+							</table>
+
+						</div>
+
+						<div id="detalle_validaciones" style="display: none;">
+							<hr>
+
+							<table>
+								<tr>
+									<td>Validación Documentos PDF :</td>
+									<td id="td_val_pdf"></td>
+								</tr>
+								<tr>
+									<td>Validación XML</td>
+									<td id="td_val_xml"></td>
+								</tr>
+								<tr>
+									<td>Validacion SAP :</td>
+									<td id="td_val_sap"></td>
+								</tr>
+							</table>
+
+						</div>
+						<hr>
+					</div>
+
+				</div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		        
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+
+	<div id="formulario_contabilizar" style="padding: 0px;background: #ced4da;">
+		<div style="padding: 0px;background: #ced4da;">
+		<table style="width: 100%; margin: 0px; font-size: 11px;border: 0px; background: #ced4da;"
+			id="tabla_detalle">
+		</table>
+		
+		<input type="hidden" id="usuario" name="usuario" th:value="${DatosUsuario.usuario}">
+		<input type="hidden" id="clave" name="clave" th:value="${DatosUsuario.clave}">
+		
+		<input type="hidden" id="tipDoc" name="tipDoc">
+		<input type="hidden" id="nro_doc_sunat" name="nro_doc_sunat">
+		<input type="hidden" id="tip_doc_sunat" name="tip_doc_sunat">
+		<input type="hidden" id="nro_doc" name="nro_doc">
+		<input type="hidden" id="pos_doc" name="pos_doc">
+		<input type="hidden" id="ejercicio" name="ejercicio">
+		<input type="hidden" id="num_pedido" name="num_pedido">
+		<input type="hidden" id="fecha_fact" name="fecha_fact">
+		<input type="hidden" id="sociedad" name="sociedad">
+		<input type="hidden" id="clave_moneda" name="clave_moneda">
+		<input type="hidden" id="importe_fact" name="importe_fact">
+		<input type="hidden" id="importe_imp" name="importe_imp">
+		<input type="hidden" id="indicador_imp" name="indicador_imp">
+		<input type="hidden" id="cod_proveedor" name="cod_proveedor">
+		
+		<input type="hidden" id="id_correo" >
+			
+		
+			
+			<!-- <input type="hidden" id="fecha_vencimiento" name="fecha_vencimiento">-->
+			<input type="hidden" id="clave_condicion_pago" name="clave_condicion_pago">
+			<input type="hidden" id="texto_cabecerad" name="texto_cabecerad">
+
+		<table style="width: 100%; background: #ced4da;">
+			<tr id="tabla_input1" style="background: #ced4da;">
+				<td>Texto Cabecera:</td>
+				<td><input type="text" class="form-control" id="texto_cabecera"
+					name="texto_cabecera" maxlength="25"></td>
+				<td>Moneda:</td>
+				<td><input type="text" class="form-control" id="moneda_conta"
+					name="moneda_conta" disabled></td>
+				<td>Fecha B.V.:</td>
+				<td><input type="date" class="form-control" id="fecha_vencimiento"
+					name="fecha_vencimiento"></td>
+				<td>Retenciones:</td>
+				<td>
+					<select	class="custom-select my-1 mr-sm-2" id="indicador_tipo_ret"
+						name="indicador_tipo_ret" style="width: 190px;font-size: 12px;" onChange="poblar_retenciones()">
+						<option></option>
+					</select>
+					
+					<select	class="custom-select my-1 mr-sm-2" id="indicador_ret"
+						name="indicador_ret" style="width: 190px;font-size: 12px;"  required>
+						<option></option>
+						
+					</select>
+				</td>
+				<td>DOC. SAP.:</td>
+				<td><input type="text" class="form-control" id="doc_sap_conta"
+					name="doc_sap_conta" disabled></td>
+			</tr>
+			<tr id="tabla_input2" style="background: #ced4da;">
+				<td>Fecha Contab:</td>
+				<td><input type="date" class="form-control"
+					id="fecha_conta" name="fecha_conta"></td>
+				<td>Cond. PAGO:</td>
+				<td><input type="text" class="form-control"
+					id="cond_pago_conta" name="cond_pago_conta" disabled></td>
+				<td>Fact. Prov.:</td>
+				<td style="text-align: center;"><a href="#" id="ruta_factura" target="_blank"><i
+						class="fa fa-file"></i></a></td>
+				<td>Proveedor:</td>
+				<td colspan="3"><input type="text" class="form-control"
+					id="proveedor_conta" name="proveedor_conta" disabled></td>
+			</tr>
+		</table>
+		<br>
+		<button class="btn btn-info" id="btn_contabilizar" style="margin-left: 2%;"
+			onClick="contabilizar_factura()">Contabilizar Factura</button>
+		<br clear="all">
+		<br clear="all">
+		</div>
+	</div>
+
+	<footer th:replace="layouts/templateLogin::footer"></footer>
+		<script th:src="@{/plugins/js/script_contabilizar.js}" ></script>
+	</body>
+</html>

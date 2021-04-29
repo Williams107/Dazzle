@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta charset="UTF-8" />
+	<head th:replace="layouts/templateLogin::head"></head>
+	<style  type="text/css">
+	td{
+           text-align: center;
+      }
+	</style>
+
+	<body>
+
+		<div th:replace="layouts/templateLogin::header"></div>
+		<div th:replace="layouts/templateLogin::menu"></div>
+	
+		<div id="content" class="container-fluid">			
+			<br>
+			<div class="row" style="background:#f5f5f5;">
+				<div class="col-lg-12">	
+					<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' />
+	 				<div class="mail-box">
+		 				<div class="form-body">
+						        <h4 class="box-title" style="color: #346187 !important; font-size: 18px; font-weight: 400; text-shadow: 0 0 0.125rem #ffffff;">
+				                	<i class="fad fa-cogs"></i> <a href="#">Parametros Generales</a>
+				                </h4>
+				                <hr class="m-t-0 m-b-30">
+				                <div class="nav-container">
+								  <ol class="breadcrumb float-left" style="background:#f5f5f5;">				  
+								   </ol>
+								  
+								 
+												    
+												  <div class="row">
+												    <div class="col-20">
+														    <div style="margin-bottom: 10px;">
+															  <button type="button" class="btn btn-info" style=""><i class="fad fa-cogs"></i> Guardar Configuracion</button>
+															  </div>
+												    <div class="table-responsive">
+												      <table class="table table-bordered table-hover table-striped" style="font-size: 12px;">
+												        <thead style="background:#c8d4de;">
+												          <tr style="text-align: center;">
+												          	<th rowspan="2"></th>
+												            <th scope="col" colspan="5">Proc.Logistico</th>
+												            <th scope="col" colspan="2">Proc. Financiero</th>
+												          </tr>
+												          <tr>
+												          	
+												            <th scope="col">LOG01</th>
+												            <th scope="col">LOG02</th>
+												            <th scope="col">LOG03</th>
+												            <th scope="col">LOG04</th>
+												            <th scope="col">LOG05</th>
+												            <th scope="col">FIN01</th>
+												            <th scope="col">FIN02</th>												            
+												          </tr>
+												          
+												           <tr>
+												            <th scope="col">Escenarios / Documentos</th>
+												            <th scope="col">Bienes (MIRO)</th>
+												            <th scope="col">Servicios Empresa (MIRO)</th>
+												            <th scope="col">Servicios Indep.(MIRO)</th>
+												            <th scope="col">Consignación (MRKO)</th>
+												            <th scope="col">Servicios Liq.Cont.(MIRO)</th>
+												            <th scope="col">Factura FI (FB60)</th>
+												            <th></th>												            
+												          </tr>
+												          
+												        </thead>
+												        <tbody>
+												          <tr>
+												            <th>
+												              XML
+ 															  Tipo Comp. Factura / NC / ND / RRHH
+												            </th>
+												            <td>
+	      														<div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+      														</td>
+      														
+												            <td>
+													            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															
+												            <td>
+												             <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+												            </td>
+												            <td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td></td>
+												          </tr>
+												          
+												          <tr>
+												            <th>
+												              PDF Factura
+												            </td>
+												           <td>
+	      														<div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+      														</td>
+      														
+												            <td>
+													            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															
+												            <td>
+												             <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+												            </td>
+												            <td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td></td>
+												          </tr>
+												          
+												          <tr>
+												            <th>
+												             PDF MIGO
+												            </th>
+												           <td>
+	      														<div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+      														</td>
+      														
+												            <td>
+													            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															
+												            <td>
+												             <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+												            </td>
+												            <td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+												         	<td></td>
+												          </tr>
+												          
+												          <tr>
+												            <th>
+												            PDF HES
+												            </th>												           
+												            <td>
+	      														
+      														</td>
+      														
+												            <td>
+													            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															
+												            <td>
+												             <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+												            </td>
+												            <td>
+												            
+															</td>
+															<td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td>
+															</td>
+															<td></td>
+												          </tr>
+												          
+												          <tr>
+												            <th>
+												            PDF Orden de Compras 
+												            </th>
+												           <td>
+	      														<div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+      														</td>
+      														
+												            <td>
+													            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															
+												            <td>
+												             <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+												            </td>
+												            <td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td>
+												           
+															</td>
+															<td></td>
+												          </tr>
+												          <tr>
+												            <th>
+												           PDF Aceptación de Conformidad 
+												            </th>
+												            <td>
+	      														
+      														</td>
+      														
+												            <td>
+													            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															
+												            <td>
+												             <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+												            </td>
+												            <td>
+												            
+															</td>
+															<td>
+												            N/A
+															</td>
+															<td>
+												            
+															</td>
+															<td></td>
+												          </tr>
+												          
+												          <tr>
+												            <th>
+												            PDF Liquidación Contratista
+												            </th>
+												            <td>
+	      														N/A
+      														</td>
+      														
+												            <td>
+													            N/A
+															</td>
+															
+												            <td>
+												                N/A
+												            </td>
+												            <td>
+												                N/A
+															</td>
+															<td>
+												            <div class="form-check">
+																  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																</div>
+															</td>
+															<td>
+												            
+															</td>
+															<td></td>
+												          </tr>
+												        </tbody>
+												      </table>
+												      </div>
+												    </div>
+												  </div>
+												</div>
+											  
+											 <br>
+							    </div>												        
+		                </div> 				
+	 				</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
+		
+		
+		<footer th:replace="layouts/templateLogin::footer"></footer>
+	</body>
+	
+	
+</html>

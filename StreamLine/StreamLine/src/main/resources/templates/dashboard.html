@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta charset="UTF-8" />
+	<head th:replace="layouts/templateLogin::head"></head>
+	<body>
+
+	<div th:replace="layouts/templateLogin::header"></div>
+	<div th:replace="layouts/templateLogin::menu"></div>
+
+
+	<div id="content" class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+		  <div class="titulo1" style="margin-bottom: 0px !important; padding: 5px 25px 5px !important; background-color: transparent !important;">
+		  <h2 style="color: rgb(0, 64, 128);">Registro CPE</h2>
+		  <hr>
+		 </div>
+	    </div>
+	</div>
+	
+	<div class="row">
+		<div th:if="${#strings.contains(DatosUsuario.accesos, '1')}" id="id_bandeja_entrada" class="col-md-6 col-sm-6 col-lg-3 col-xs-6">
+			<a th:href="@{/Bandeja/pendientes}">
+			 <div class="panel6">
+			  <div class="row top">
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit">
+			      e-Recepción
+			    </div>
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit2">
+			      Estado Documentos Recepcionados
+			    </div>
+			  </div>
+			  <div class="row bob">
+			      <div class="col-sm-12 col-md-12 text-right" style="margin-top: 15px; margin-bottom: -14px;">
+			      		<i class="fad fa-envelope-open-text"></i>
+			      		&nbsp;
+			      </div>
+			  </div><br>
+			  <div class="bottom text-right">
+			    <font>Correos</font>
+			  </div>
+			 </div>
+			</a>
+		</div>
+		
+		<div th:if="${#strings.contains(DatosUsuario.accesos, '2')}" id="id_verificacion_facturas"  class="col-md-6 col-sm-6 col-lg-3 col-xs-6">
+			<a th:href="@{/Contabilizar/contar}">
+			 <div class="panel6">
+			  <div class="row top">
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit">
+			      e-Verificación CPE
+			    </div>
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit2">
+			      Contabilizar Facturas
+			    </div>
+			  </div>
+			  <div class="row bob">
+			      <div class="col-sm-12 col-md-12 text-right" style="margin-top: 15px; margin-bottom: -14px;">
+			      		<i class="fad fa-books-medical" style='color:rgb(128, 0, 0)'></i>
+			      		
+			      </div>
+			  </div><br>
+			  <div class="bottom text-right">
+			    <font>Por Contabilizar</font>
+			  </div>
+			 </div>
+			 </a>
+		</div>
+		
+		
+		
+	
+		<div id="id_report_correos" th:if="${#strings.contains(DatosUsuario.accesos, '3')}" class="col-md-6 col-sm-6 col-lg-3 col-xs-6">
+			<a th:href="@{/Rcontenido/contenido}">
+			 <div class="panel6">
+			  <div class="row top">
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit">
+			      Validación de Contenido
+			    </div>
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit2">
+			      Archivo de Correo
+			    </div>
+			  </div>
+			  <div class="row bob">
+			      <div class="col-sm-12 col-md-12 text-right" style="margin-top: 15px; margin-bottom: -14px;">
+			      		<i class="fad fa-tasks"></i>
+			      		&nbsp;
+			      </div>
+			  </div><br>
+			  <div class="bottom text-right">
+			    <font>Historial Correos</font>
+			  </div>
+			 </div>
+			</a>
+		</div>
+		
+		
+		<div th:if="${#strings.contains(DatosUsuario.accesos, '4')}" id="id_report_correos"  class="col-md-6 col-sm-6 col-lg-3 col-xs-6">
+			<a th:href="@{/reporcorreo/reporteemail}">
+			 <div class="panel6">
+			  <div class="row top">
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit">
+			      Reporte de Correos Descargados
+			    </div>
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit2">
+			      Lista de Correos Descargados
+			    </div>
+			  </div>
+			  <div class="row bob">
+			      <div class="col-sm-12 col-md-12 text-right" style="margin-top: 15px; margin-bottom: -14px;">
+			      		<i class="fad fa-tasks"></i>
+			      		&nbsp;
+			      </div>
+			  </div><br>
+			  <div class="bottom text-right">
+			    <font>Historial Correos</font>
+			  </div>
+			 </div>
+			</a>
+		</div>
+		
+		
+		<div th:if="${#strings.contains(DatosUsuario.accesos, '5')}" id="id_log_sistema"  class="col-md-6 col-sm-6 col-lg-3 col-xs-6">
+			<a th:href="@{/Errorcorreo/erroremail}">
+			 <div class="panel6">
+			  <div class="row top">
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit">
+			      Log del Sistema
+			    </div>
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit2">
+			      Correos Rechazados y Log de Errores
+			    </div>
+			  </div>
+			  <div class="row bob">
+			      <div class="col-sm-12 col-md-12 text-right" style="margin-top: 15px; margin-bottom: -14px;">
+			      		<i class="fad fa-clipboard-list text-danger"></i>
+			      		&nbsp;
+			      </div>
+			  </div><br>
+			  <div class="bottom text-right">
+			    <font>Incidencias</font>
+			  </div>
+			 </div>
+			</a>
+		</div>
+			
+	</div>
+	
+	
+	
+	<div class="row">
+		<div class="col-md-12">
+		  <div class="titulo1" style="margin-bottom: 0px !important; padding: 5px 25px 5px !important; background-color: transparent !important;">
+		  <h2>Administrador</h2>
+		 </div>
+	    </div>
+	</div>
+		<div class="row">
+			
+		<div th:if="${#strings.contains(DatosUsuario.accesos, '6')}" id="id_bandeja_entrada"
+			class="col-md-6 col-sm-6 col-lg-3 col-xs-6">
+			<a th:href="@{/Config/entrenamiento}">
+				<div class="panel6">
+					<div class="row top">
+						<div class="col-sm-12 col-md-12 col-xs-12 tit">Módulo de
+							Entrenamiento</div>
+						<div class="col-sm-12 col-md-12 col-xs-12 tit2">cargar tipos
+							de documentos para validar</div>
+					</div>
+					<div class="row bob">
+						<div class="col-sm-12 col-md-12 text-right"
+							style="margin-top: 15px; margin-bottom: -14px;">
+							<i class="fad fa-cloud-upload" style='color: rgb(255, 128, 0)'></i>
+							&nbsp;
+						</div>
+					</div>
+					<br>
+					<div class="bottom text-right">
+						<font>Documentos</font>
+					</div>
+				</div>
+			</a>
+		</div>
+		
+		<div th:if="${#strings.contains(DatosUsuario.accesos, '7')}" id="id_conexion_correo"  class="col-md-6 col-sm-6 col-lg-3 col-xs-6">
+		 <a th:href="@{/Config/descorreo}">
+			 <div class="panel6">
+			  <div class="row top">
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit">
+			      Procesos 
+			    </div>
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit2">
+			      Lista de procesos en ejecución
+			    </div>
+			  </div>
+			  <div class="row bob">
+			      <div class="col-sm-12 col-md-12 text-right" style="margin-top: 15px; margin-bottom: -14px;">
+			      		<i class="fad fa-mail-bulk"></i>
+			      </div>
+			  </div><br>
+			  <div class="bottom text-right">
+			    <font>Envío/Recepción</font>
+			  </div>
+			 </div>
+			</a>
+		</div>
+		
+		<div th:if="${#strings.contains(DatosUsuario.accesos, '8')}" id="id_administrar_usuarios" class="col-md-6 col-sm-6 col-lg-3 col-xs-6">
+			<a th:href="@{/Usuario/panel/}">
+			 <div class="panel6">
+			  <div class="row top">
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit">
+			      Administrar Usuarios
+			    </div>
+			    <div class="col-sm-12 col-md-12 col-xs-12 tit2">
+			      Creación/Modificación
+			    </div>
+			  </div>
+			  <div class="row bob">
+			      <div class="col-sm-12 col-md-12 text-right" style="margin-top: 15px; margin-bottom: -14px;">
+			      		<i class="fad fa-users-cog"></i>
+			      		&nbsp;
+			      </div>
+			  </div><br>
+			  <div class="bottom text-right">
+			    <font>Perfiles/Accesos</font>
+			  </div>
+			 </div>
+			</a>
+		</div>
+		
+		
+	  </div>
+	</div>
+	</div>
+		<footer th:replace="layouts/templateLogin::footer"></footer>
+	</body>
+</html>

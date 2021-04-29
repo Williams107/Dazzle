@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta charset="UTF-8" />
+	<head th:replace="layouts/templateLogin::head"></head>
+	<link th:href="@{/plugins/css/estilos_bandeja.css}" rel="stylesheet" />
+	<body>
+
+		<div th:replace="layouts/templateLogin::header"></div>
+		<div th:replace="layouts/templateLogin::menu"></div>
+	
+		<div id="content" class="container-fluid">
+			
+			
+			<div class="row">
+				<div class="col-lg-12">	    				
+
+ 				<div class="mail-box">                 
+                  
+                  <aside class="lg-side">
+                      <div class="inbox-head">
+                          <h3><strong>Bandeja de correos</strong></h3>
+                          <form id="formulario-busqueda" class="pull-right position" style="width: 50%;">
+                              <div class="input-append" >
+                                  <input type="text" class="sr-input" id="asunto-busqueda" required placeholder="Buscar correos" style="width: 80%;" />
+                                  <button class="btn sr-btn" type="submit"><i class="fa fa-search"></i></button>
+                              </div>
+                          </form>
+                      </div>
+                      <div class="inbox-body">                      
+                                     
+                         <div class="row" >
+                         <div class="col-lg-6">
+                         <table style="width: 100%;margin-bottom: 5px;">
+                         	<tr>
+                         	<!-- <td style="width: 25%;"><strong>Total Correos:</strong></td>                         	
+                         	<td style="width: 10%;"><span class="label label-info" id="total-correos"></span></td>-->
+                         	<td style="width: 15%;">
+                         		                             	
+                             	<div class="dropdown">
+								  <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								    Filtrar Correos
+								  </button>
+								  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								    <a class="dropdown-item" href="#" onClick="filtrar_correos(1, 'Pendientes')">Pendientes</a>
+								    <a class="dropdown-item" href="#" onClick="filtrar_correos(2, 'Validados')">Validados</a>
+								    <a class="dropdown-item" href="#" onClick="filtrar_correos(3, 'No Leídos')">No Leídos</a>
+								  </div>
+								</div>
+                         	</td>
+                         	
+                         	<td style="text-align: left;">
+                         		
+	                                 <a data-original-title="Refresh" onClick="refrescar_bandeja()" data-placement="top" data-toggle="dropdown" href="#" class="btn btn-info">
+	                                     <i class=" fa fa-refresh"></i>
+	                                 </a>
+	                             
+                         	</td>
+                         	
+                         	<td style="">
+                         		<div class="alert alert-secondary alert-dismissible fade show" style="padding: 9px 9px;margin:0px;display:none;" role="alert" id="alerta_filtro">
+								  <strong id="text_filtro">PENDIENTES</strong>
+								  <button type="button" class="close" onClick="cerrar_alerta()" style="padding: 9px 9px;">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								</div>
+                         	</td>
+                         	
+                         	
+                         	</tr>
+                         </table>
+                         <div class="table-responsive estilo-scroll" style="font-size: 12px;max-height: 420px;overflow-y:auto;" id="contenedor-correo">
+                          <table class="table table-inbox table-hover" id="tabla-bandeja">
+                          	
+                            <tbody id="cuerpo"></tbody>
+                          </table>
+                          </div>
+                          </div>
+                          
+	                          <div class="col-lg-6" >
+	                          		
+	                          		<div  id="sin-seleccion" style="vertical-align:middle;margin: 0px auto; text-align:center;">
+	                          			<img th:src="@{/images/email.png}" style="width: 50%;margin: auto;display:block;vertical-align:middle;" />
+	                          			<h2>Seleccione un correo</h2>
+	                          		</div>
+            
+						           	<div class="mail-view d-none bg-white" id="correo-seleccionado">
+						                <!--<button class="btn btn-info" onClick="procesar_email()"><i class="fa fa-send"></i> Procesar</button>
+						                
+						                <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#rechazar"><i class="fa fa-close"></i> Rechazar</button>-->
+						                <hr>
+						                <div class="message-body estilo-scroll" style="text-align: justify;font-size: 12px;max-height: 410px;overflow-y:auto;">
+						                  <div class="sender-details">
+						                    <div class="details">
+						                      <h2><strong id="asunto"></strong></h2>
+						                      
+						                       <span style="font-size: 18px;font-weight:bolder;" id="nom_prov"></span>
+						                       <br>
+						                       <span style="font-size: 16px;font-weight:bolder;" id="ruc_sender"></span>
+						                       <span style="font-size: 16px;font-weight:bolder;" id="factura_sender"></span>
+						                      
+						                      
+						                      <p class="sender-email" id="sender"></p>
+						                      
+						                      <p class="msg-subject pull-left" id="fecha_email"></p>
+						                      <p id="hora_email" class="pull-right"></p>
+						                      <br>
+						                      
+						                    </div>
+						                  </div>
+						                  <div class="message-content" id="cuerpo_email"></div>
+						                  
+						                  <hr>
+						                  <div class="attachments-sections">
+						                    <ul id="archivos_email"></ul>
+						                  </div>
+						                  <br clear="all">
+						                  
+						                  <strong id="mensaje_estado_validacion"></strong>
+						                  
+						                  <div id="detalle_verificacion_xml" style="display:none;">
+						                  <hr>
+						                  
+						                  <strong>Comprobación XML:</strong>
+						                  <table>
+						                  	<tr>
+						                  		<td>Estado Comprobante :</td>
+						                  		<td><span class="badge badge-success" id="es_com"></span></td>
+						                  	</tr>
+						                  	<tr>
+						                  		<td>Estado Contribuyente :</td>
+						                  		<td><span class="badge badge-success" id="es_con"></span></td>
+						                  	</tr>
+						                  	<tr>
+						                  		<td>Condición Contribuyente :</td>
+						                  		<td><span class="badge badge-success" id="cond_con"></span></td>
+						                  	</tr>
+						                  </table>
+						                  
+						                  </div>
+						                  
+						                  <div id="detalle_validaciones" style="display:none;">
+							                  <hr>
+							                  
+							                  <table>
+							                  	<tr>
+							                  		<td>Validación Documentos PDF :</td>
+							                  		<td id="td_val_pdf"></td>
+							                  	</tr>
+							                  	<tr>
+							                  		<td>Validación XML</td>
+							                  		<td id="td_val_xml"></td>
+							                  	</tr>
+							                  	<tr>
+							                  		<td>Validacion SAP :</td>
+							                  		<td id="td_val_sap"></td>
+							                  	</tr>
+							                  </table>
+						                  
+						                  </div>		                  	 
+						                  <hr>
+						                </div>
+						              </div>
+						           </div>                          	
+	                          </div>                          
+                          </div>                          
+                      </div>
+                  </aside>
+              </div>
+
+				</div>
+				
+				<div class="col-lg-8">
+				</div>
+			</div>			
+		</div>		
+		
+		<div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="rechazar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h3 class="modal-title" id="exampleModalLabel">Rechazar Correo</h3>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        
+		        <form id="formulario-rechazo">   
+				  <div class="form-group">
+				    <label for="observacion">Ingresar Observación:</label>
+				    <input type="hidden" name="correoRechazo" id="correoRechazo" value="w_tucto@hotmail.com" />
+				    <input type="hidden" name="asuntoCorreoRechazo" id="asuntoCorreoRechazo" />
+				    <input type="hidden" name="idEmailRechazado" id="idEmailRechazado" />
+				    <textarea class="form-control" id="observacion" name="observacion" rows="3"></textarea>
+				  </div>
+				  <button type="submit" class="btn btn-primary"><i class="fa fa-send"></i> Enviar Observación</button>
+				</form>
+		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		        
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal-archivo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<footer th:replace="layouts/templateLogin::footer"></footer>
+		<script th:src="@{/plugins/js/script_bandeja.js}" ></script>
+	</body>
+	
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta charset="UTF-8" />
+	<head th:replace="layouts/templateLogin::head"></head>
+	<body>
+
+		<div th:replace="layouts/templateLogin::header"></div>
+		<div th:replace="layouts/templateLogin::menu"></div>
+	
+		<div id="content" class="container-fluid">			
+			<br>
+			<div class="row" style="background:#f5f5f5;">
+				<div class="col-lg-12">	
+ 				<div class="mail-box">
+ 				<div class="form-body">
+				        <h4 class="box-title" style="color: #346187 !important; font-size: 18px; font-weight: 400; text-shadow: 0 0 0.125rem #ffffff;">
+		                	<i class="fad fa-cogs"></i> <a href="#">Carga de documentos</a>
+		                </h4>
+		             	<br clear="all">   
+		                <button class="btn btn-info pull-right" data-toggle="modal" data-target="#modal_documento">Agregar Tipo Documento</button>
+		             		                
+		                <hr class="m-t-0 m-b-30">
+		                
+		                
+		                
+               			<form class="was-validated" id="formulario_archivos">						
+						  <label class="my-1 mr-2" for="tipo_documento">Seleccionar un documento</label>
+						  <select class="custom-select my-1 mr-sm-2" id="tipo_documento" name="tipo_documento" required>
+						    <option></option>
+						    <option th:each="tipo : ${tipos}"
+				                th:value="${tipo.idTipo}"
+				                th:text="${tipo.nombre}"></option>
+						  </select>
+						  			 						  
+						  <label class="my-1 mr-2" for="archivos">Subir Archivo</label>
+						  <input type="file" class="form-control-file btn btn-primary my-1 btn-outline-primary" multiple id="archivos" name="archivos" required>
+						 
+						  <button type="submit" class="btn btn-primary my-1 btn-outline-primary">Extraer Contenido</button>
+						  
+						  <button type="button" class="btn btn-primary my-1 pull-right" style="margin-left: 1%;">Entrenar Redes</button>						    
+						  <button type="button" class="btn btn-primary my-1 btn-outline-success pull-right">Generar JSON</button>
+						  <div class="form-group">
+						    <label for="exampleFormControlTextarea1"></label>
+						    <textarea class="form-control" id="exampleFormControlTextarea1" rows="8"></textarea>
+						  </div>	  						  
+						</form>
+				  </div> 				
+ 				</div>
+ 				</div>
+ 				</div>
+ 				</div>
+ 		
+ 		<!-- Modal -->
+		<div class="modal fade" id="modal_documento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Agregar Tipo Documento</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        
+		        <form id="form_documento">
+				  <div class="form-group">
+				    <label for="documento">Ingrese Documento:</label>
+				    <input type="text" class="form-control" id="documento" name="documento" aria-describedby="emailHelp" >
+				  </div>
+				  
+				  <button type="submit" class="btn btn-primary">Guardar</button>
+				</form>
+		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>		
+ 				
+ 		<footer th:replace="layouts/templateLogin::footer"></footer>
+ 				
+	</body>
+	
+	<script>
+		
+		$(document).ready(function(){
+			
+			$("#formulario_archivos").on("submit", function (e) {
+
+			        // cancel the default behavior
+			        e.preventDefault();
+			
+			        // use $.ajax() to upload file
+			        $.ajax({
+			            url: "/Config/guardarArchivo",
+			            type: "POST",
+			            data: new FormData(this),
+			            enctype: 'multipart/form-data',
+			            processData: false,
+			            contentType: false,
+			            cache: false,
+			            dataType: 'JSON',
+			            beforeSend: function(){
+			            	$("#fondo").css("display","block");
+			            },
+			            success: function (data) {
+			            	$("#fondo").css("display","none");
+			            	console.log(data);
+			                alert(data['mensaje']);
+			                $("#formulario_archivos")[0].reset();
+			            },
+			            error: function (data) {
+			                $("#fondo").css("display","none");
+			                console.error(data);
+			            }
+			        });
+			    });
+			    
+			$("#form_documento").submit(function(){
+				
+				$.ajax({          
+		          contentType: false,
+		          dataType: "json",
+		          url:'/Config/guardarTipoDocumento',
+		          method:'post',
+		          data: new FormData(document.getElementById('form_documento')),
+		          cache : false,
+				  processData : false,          
+		          beforeSend: function(){
+		            $("#fondo").css("display","block");
+		          },
+		          error: function(){
+		            $("#fondo").css("display","none");
+		            alert("Hubo un problema con la busqueda, Intentelo de nuevo");
+		          },
+		          success: function(data){
+		            $("#fondo").css("display","none");
+		            alert(data['mensaje']);
+		            if(data['code'] == 1)
+		            {
+		            	$("#form_documento")[0].reset();
+		            }		              
+		          }
+		        })
+				
+			});
+		
+		})
+	</script>
+</html>

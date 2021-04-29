@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta charset="UTF-8" />
+	<head th:replace="layouts/templateLogin::head"></head>
+	
+
+	<body>
+
+		<div th:replace="layouts/templateLogin::header"></div>
+		<div th:replace="layouts/templateLogin::menu"></div>
+	
+		<div id="content" class="container-fluid">
+			
+		<div class="row" style="background:#f5f5f5;">
+			<div class="col-lg-6">
+								
+                   	<div class="form-body">
+			            <h4 class="box-title" style="color: #346187 !important; font-size: 18px; font-weight: 400; text-shadow: 0 0 0.125rem #ffffff;">
+		                	<i class="fad fa-mail-bulk"></i> <a href="#">
+		                		Parametros
+		                	</a>
+		                </h4>
+		                <hr class="m-t-0 m-b-30">
+			           
+			            <form id="form-actualizar-parametros">
+			             <div class="form-row">
+							  <div class="form-group col-lg-6">
+							    <label for="ambiente">Ambiente:</label>
+							    <input type="text" class="form-control" th:value="${not parametros.empty} ? ${parametros[0].ambiente}" id="ambiente" name="ambiente" required>
+							  	<input type="hidden" th:value="${idEmpresa}" id="parametro_id_empresa" name="parametro_id_empresa">
+							  </div>
+							  <div class="form-group col-lg-6">
+							    <label for="mandante">Mandante:</label>
+							    <input type="text" class="form-control" th:value="${not parametros.empty} ? ${parametros[0].mandt}" id="mandante" name="mandante" required>
+							  </div>
+						 </div>
+						 <div class="form-row">
+							  <div class="form-group col-lg-6">
+							    <label for="sociedad">Sociedad:</label>
+							    <input type="text" class="form-control" th:value="${not parametros.empty} ? ${parametros[0].sociedad}" id="sociedad" name="sociedad" required>
+							  </div>
+							  <div class="form-group col-lg-6">
+							    <label for="servidor">Servidor:</label>
+							    <input type="text" class="form-control" th:value="${not parametros.empty} ? ${parametros[0].serv}" id="servidor" name="servidor" required>
+							  </div>
+						 </div>
+						 <div class="form-row">
+							  <div class="form-group col-lg-6">
+							    <label for="nro_ins">N° Inst.:</label>
+							    <input type="text" class="form-control" th:value="${not parametros.empty} ? ${parametros[0].num_inst}" id="nro_ins" name="nro_ins" required>
+							  </div>
+							  <div class="form-group col-lg-6">
+							    <label for="id_sis">Id Sist.:</label>
+							    <input type="text" class="form-control" th:value="${not parametros.empty} ? ${parametros[0].id_sist}" id="id_sis" name="id_sis" required>
+							  </div>
+						 </div>
+						 
+						 <div class="form-row">
+							  <div class="form-group col-lg-6">
+							    <label for="idioma">Idioma:</label>
+							    <input type="text" class="form-control" th:value="${not parametros.empty} ? ${parametros[0].idioma}" id="idioma" name="idioma" required>
+							  </div>
+							  <div class="form-group col-lg-6">
+							    <label for="usuario_parametro">usuario:</label>
+							    <input type="text" class="form-control" th:value="${not parametros.empty} ? ${parametros[0].usuario}" id="usuario_parametro" name="usuario_parametro" required>
+							  </div>
+						 </div>
+						 
+						<div class="form-row">
+							<div class="form-group col-lg-12">
+								<input type="checkbox" id="check_parametro"> ver clave
+							</div>
+							<div class="form-group col-lg-12">
+								<label for="clave_parametro">Cambiar Clave:</label> <input
+									type="password"
+									th:value="${not parametros.empty} ? ${parametros[0].clave}"
+									class="form-control" id="clave_parametro" name="clave_parametro">
+							</div>
+						</div>
+
+						<button type="submit" class="btn btn-primary">Actualizar Datos</button>
+						</form>
+					           
+	        		</div>
+		        
+                </div>
+                
+                <div class="col-lg-6">
+			
+			
+                   	<div class="form-body">
+			            <h4 class="box-title" style="color: #346187 !important; font-size: 18px; font-weight: 400; text-shadow: 0 0 0.125rem #ffffff;">
+		                	<i class="fad fa-mail-bulk"></i> <a href="#">
+		                	 Correos Electrónicos
+		                	 </a>
+		                </h4>
+		                <hr class="m-t-0 m-b-30">
+			             <form id="form-actualizar-correo">
+				             						 
+							 <div class="form-row">
+								  <div class="form-group col-lg-12">
+								    <label for="correo">Correo</label>
+								    <input type="text" class="form-control" th:value="${not correos.empty} ? ${correos[0].usuario}" id="correo" name="correo" required>
+								    <input type="hidden" th:value="${idEmpresa}" id="correo_id_empresa" name="correo_id_empresa">
+								  </div>
+								  <div class="form-group col-lg-12">
+								    <label for="carpeta">Carpeta de Archivos:</label>
+								    <input type="text" class="form-control" th:value="${not correos.empty} ? ${correos[0].carpeta}" id="carpeta" name="carpeta" required>
+								  </div>								  
+							 </div>						
+							 
+							 <div class="form-row">
+								  <div class="form-group col-lg-12">
+								    <input type="checkbox" id="check_correo"> ver clave
+								  </div>
+								  <div class="form-group col-lg-12">
+								    <label for="clave_correo">Cambiar Clave:</label>
+								    <input type="password" th:value="${not correos.empty} ? ${correos[0].clave}" class="form-control" id="clave_correo" name="clave_correo">
+								  </div>									  
+							 </div>	
+						
+						  	<button type="submit" class="btn btn-primary">Actualizar Correo</button>
+						</form>
+	        		</div>		        
+                </div>                
+                
+                <div class="col-lg-6">
+					<br clear="all">
+                	<br clear="all">
+			
+                   	<div class="form-body">
+			            <h4 class="box-title" style="color: #346187 !important; font-size: 18px; font-weight: 400; text-shadow: 0 0 0.125rem #ffffff;">
+		                	<i class="fad fa-mail-bulk"></i> <a href="#">
+		                	 Credenciales SUNAT
+		                	 </a>
+		                </h4>
+		                <hr class="m-t-0 m-b-30">
+			             <form id="form-actualizar-sunat">
+				             						 
+							 <div class="form-row">
+								  <div class="form-group col-lg-12">
+								    <label for="id_cliente">ID Cliente:</label>
+								    <input type="text" class="form-control" th:value="${not sunat.empty} ? ${sunat[0].client_id}" id="id_cliente" name="id_cliente" required>
+								    <input type="hidden" th:value="${idEmpresa}" id="sunat_id_empresa" name="sunat_id_empresa">
+								  </div>								  							  
+							 </div>						
+							 
+							 <div class="form-row">
+								  <div class="form-group col-lg-12">
+								    <input type="checkbox" id="check_sunat"> ver clave
+								  </div>
+								  <div class="form-group col-lg-12">
+								    <label for="clave_sunat">Cambiar Clave:</label>
+								    <input type="password" class="form-control" th:value="${not sunat.empty} ? ${sunat[0].client_secret}" id="clave_sunat" name="clave_sunat">
+								  </div>									  
+							 </div>	
+						
+						  	<button type="submit" class="btn btn-primary">Actualizar Datos SUNAT</button>
+						</form>
+	        		</div>
+		        	<br>
+                </div>
+		</div>		
+		</div>						
+		
+		<footer th:replace="layouts/templateLogin::footer"></footer>
+		<script th:src="@{/plugins/js/script_configuracion.js}" ></script>
+	</body>
+</html>

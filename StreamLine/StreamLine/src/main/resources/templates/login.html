@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dazzle</title>
+	<!--<link rel="stylesheet" type="text/css" href="css/style.css">-->
+	<link rel="icon" th:href="@{/plugins/login/img/lop.ico}" type="image/ico" sizes="16x16">
+	<link rel="stylesheet" type="text/css" th:href="@{/plugins/login/css/style.css}">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+	
+</head>
+<body>
+	<img class="wave" th:src="@{/plugins/login/img/wave2.png}">
+	<div class="container">
+		<div class="img">
+			<img style="margin: 120px;width: 220px;height: 50%;" th:src="@{/plugins/login/img/vertical.png}">
+			
+		</div>
+  		<div class="login-content">
+  			<form id="formulario-sesion">
+  				<img th:src="@{/plugins/login/img/userlogin.png}">
+        <h3 class="title"> DAZZLE</h3>
+        <h4 class="title"> B I E N V E N I D O</h4>
+        <h5 class="title">Iniciar Sesión</h5>
+              <br>
+              <div class="input-div one">
+                 <div class="i">
+                    <i class="fas fa-user"></i>
+                 </div>
+                 <div class="div">
+                    <h5>Usuario</h5>
+                    <input type="text" class="input" name="usuario" id="usuario"  required>
+                 </div>
+              </div>
+              <div class="input-div pass">
+                 <div class="i"> 
+                    <i class="fas fa-lock"></i>
+                 </div>
+                 <div class="div">
+                    <h5>Contraseña</h5>
+                    <input type="password" class="input" name="clave" id="clave"  required>
+                 </div>
+              </div>
+              
+              <button type="submit" class="btn">Login</button>
+              <div>
+                <small style="text-align: center;color: #5e2f6d;margin-top: 30px;" href="#">Desarrollado por: <i>IndaLAB/Ebisu.SAC</i></small>
+            </div>
+              </form>             
+      </div> 
+
+    </div> 
+   
+    
+</body>
+<footer>
+  
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script th:src="@{/plugins/js/popper.js}"></script>
+<script type="text/javascript" th:src="@{/plugins/login/js/main.js}"></script>
+<script th:src="@{/plugins/login/js/jquery-3.4.1.js}"></script>
+<script th:src="@{/plugins/js/tilt.jquery.min.js}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+
+<script th:src="@{/plugins/js/bootstrap.min.js}"></script>
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">-->
+<script type="text/javascript">
+	
+	nombre_sistem = "";
+	
+	$(document).ready(function(){
+		
+		$("#formulario-sesion").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+				contentType: false,
+				dataType: "json",
+				url: "/validarCredenciales",
+				method: "post",
+				data: new FormData(this),
+				cache: false,
+		 		processData: false,
+		 		beforeSend: function(){
+		 			$("#gif_carga").css("display","block");
+		 		},
+		 		error: function(){
+		 			$("#gif_carga").css("display","none");
+		 		},
+		 		success: function(data){
+		 			$("#gif_carga").css("display","none");
+		 			if(data['code'] == 0){
+		 				$("#clave").val("");
+		 				toastr.error(data['mensaje']);
+		 			}
+		 			else{
+		 				location.href="/dashboard";
+		 			}
+		 		}
+			});
+		});
+	});
+
+
+	function login_warning(){
+		$.toast({
+                heading: 'Advertencia',
+                text: 'Su cuenta ha sido desactivada.',
+                position: 'bottom-left',
+                loaderBg:'#ffbb44',
+                icon: 'warning',
+                hideAfter: 3500, 
+                stack: 6
+            });
+	}
+
+	function login_error(mensaje){
+		$.toast({
+            heading: 'Error',
+            text: mensaje,
+            position: 'bottom-left',
+            loaderBg:'#f33155',
+            icon: 'error',
+            hideAfter: 3500
+          });
+	}
+
+
+</script>
+</html>
+
+
+

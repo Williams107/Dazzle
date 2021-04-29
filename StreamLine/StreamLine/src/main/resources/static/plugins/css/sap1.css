@@ -1,0 +1,343 @@
+/************************* CONTAINER *************************/
+.panel1{
+  background-color: white !important;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  padding: 18px;
+}
+
+.panel1 > h2 {
+  font-family: "72","72full",Arial,Helvetica,sans-serif;
+  font-size: 18px;
+  color: #333333;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.panel2{
+  background-color: white !important;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+  overflow: hidden;
+  margin-bottom: 20px;
+  padding: 18px;
+}
+
+.panel2 > h2 {
+  font-family: "72","72full",Arial,Helvetica,sans-serif;
+  font-size: 18px;
+  color: #333333;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/************************* CONTAINER *************************/
+
+/************************* BUTTONS *************************/
+.btn-sap {
+  color: #fff;
+  background-color: #346187;
+  border-color: #3b6e99;
+}
+
+.btn-sap:hover {
+  color: #fff;
+  background-color: #3b6e99;
+  border-color: #427bac;
+}
+
+.btn-sap:focus, .btn-sap.focus {
+  color: #fff;
+  background-color: #3b6e99;
+  border-color: #427bac;
+  box-shadow: 0 0 0 0.2rem rgba(52,97,135, 0.5);
+}
+
+.btn-sap.disabled, .btn-sap:disabled {
+  color: #fff;
+  background-color: #346187;
+  border-color: #3b6e99;
+}
+
+.btn-sap:not(:disabled):not(.disabled):active, .btn-sap:not(:disabled):not(.disabled).active,
+.show > .btn-sap.dropdown-toggle {
+  color: #fff;
+  background-color: #3b6e99;
+  border-color: #427bac;
+}
+
+.btn-sap:not(:disabled):not(.disabled):active:focus, .btn-sap:not(:disabled):not(.disabled).active:focus,
+.show > .btn-sap.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(52,97,135, 0.5);
+}
+
+/************************* BUTTONS *************************/
+
+/************************* BARRA NAVEGACION *************************/
+#barra_naveg{
+  background-color: #2f3c48 !important;
+  height: 48px !important;
+  border: 1px solid #3f5161;
+}
+
+#sidebarCollapse{
+  color: #ffffff !important;
+  font-size: 0.950rem;
+  font-weight: bold;
+  text-decoration: none !important;
+  font-family: "72","72full",Arial,Helvetica,sans-serif;
+}
+
+#btn_user{
+  color: #cae4fb !important;
+  font-size: 0.950rem;
+  font-weight: bold;
+  text-decoration: none !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  font-family: "72","72full",Arial,Helvetica,sans-serif;
+}
+
+.sub_menu_user{
+  color: #cae4fb !important;
+  font-size: 0.950rem;
+  background-color: #3f5161 !important;
+  border-color: transparent !important;
+  font-family: "72","72full",Arial,Helvetica,sans-serif;
+}
+
+.sub_menu_user:hover{
+  background-color: #45596a !important;
+}
+
+.sub_menu_user:active{
+  background-color: #496b8a !important;
+}
+/************************* BARRA NAVEGACION *************************/
+
+/************************* VARIABLES GLOBALES *************************/
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+body {
+  font-family: "72","72full",Arial,Helvetica,sans-serif;
+  background-color: white;
+}
+
+p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1em;
+  font-weight: 300;
+  line-height: 1.7em;
+  color: #999;
+}
+
+a,
+a:hover,
+a:focus {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+i{
+  color: #346187;
+}
+
+.table{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  vertical-align: middle;
+}
+
+.table thead tr{
+  font-family: "72",Arial,Helvetica,sans-serif;
+  font-size: 16px;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #e5e5e5;
+  background-clip: padding-box;
+  vertical-align: middle;
+  line-height: 1.4;
+  font-size: 0.875rem;
+  color: #474747;
+  font-weight: normal !important;
+}
+
+.table tbody tr{
+  font-family: "72",Arial,Helvetica,sans-serif;
+  font-size: 15px;
+}
+
+.table-hover tbody tr:hover {
+  cursor: pointer;
+  color: #212529;
+  background-color: #f0f0f0;
+}
+
+.table-hover tbody tr:active {
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #427cac !important;
+}
+
+/************************* VARIABLES GLOBALES *************************/
+
+/************************* EXTENDS *************************/
+.navbar {
+  padding: 15px 10px;
+  background: #fff;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 40px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn {
+  box-shadow: none;
+  outline: none !important;
+  border: none;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dashed #ddd;
+  margin: 40px 0;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+}
+
+#sidebar {
+  width: 239px;
+  position: fixed;
+  top: 48px;
+  left: 0;
+  height: 100vh;
+  z-index: 999;
+  background: #3f5161;
+  color: #fff;
+  transition: all 0.3s;
+  font-size: 0.800rem;
+}
+
+#sidebar.active {
+  margin-left: -239px;
+}
+
+#sidebar i{
+  color: #cae4fb;
+  font-size: 17px !important;
+  padding-right: 9px;
+}
+
+#sidebar ul.components {
+  padding: 20px 0;
+  border-bottom: 1px solid #47748b;
+  min-width: 2rem;
+  padding: 0.5rem;
+}
+
+#sidebar ul p {
+  color: #fff;
+  padding: 10px;
+}
+
+#sidebar ul li a {
+  padding: 10px;
+  font-size: 1.1em;
+  display: block;
+}
+
+#sidebar ul li a:hover {
+  color: #fff;
+  background: #45596a;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+  color: #fff;
+  background: #496b8a;
+}
+
+a[data-toggle="collapse"] {
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+ul ul a {
+  font-size: 0.9em !important;
+  padding-left: 30px !important;
+  background: #3f5161;
+}
+
+ul.CTAs {
+  padding: 20px;
+}
+
+ul.CTAs a {
+  text-align: center;
+  font-size: 0.9em !important;
+  display: block;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+a.download {
+  background: #fff;
+  color: #3f5161;
+}
+
+a.article,
+a.article:hover {
+  background: #3f5161 !important;
+  color: #fff !important;
+}
+
+#content {
+  width: calc(100% - 239px);
+  padding: 40px;
+  min-height: 100vh;
+  transition: all 0.3s;
+  position: absolute;
+  top: 20px;
+  right: 0;
+  background-color: white;
+}
+
+#content.active {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -239px;
+  }
+  #sidebar.active {
+    margin-left: 0;
+  }
+  #content {
+    width: 100%;
+  }
+  #content.active {
+    width: calc(100% - 239px);
+  }
+  #sidebarCollapse span {
+    display: none;
+  }
+}
+/************************* EXTENDS *************************/

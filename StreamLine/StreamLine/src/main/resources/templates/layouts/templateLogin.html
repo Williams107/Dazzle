@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+	<head th:fragment="head">
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="Dazzle">
+		<meta name="author" content="EBISU">
+		
+		<title>Dazzle</title>
+		<link rel="icon" href="/plugins/login/img/lop.ico" type="image/ico" sizes="16x16">
+		<!--<link rel="shorcut icon" type="image/png" sizes="16x16" th:href="@{/plugins/img/favicon.png}">-->
+		<!-- Bootstrap Core CSS -->
+		<link th:href="@{/plugins/css/bootstrap.css}" rel="stylesheet">
+		
+		<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"></script> -->
+		<!-- <script th:src="@{/plugins/js/font-awesome.js}"></script> -->
+		<link th:href="@{/plugins/font-awesome-13pro/css/all.css}" rel="stylesheet">
+		
+		<!-- ADD AMPLEADMIN -->
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/switchery.min.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/custom-select.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/multi-select.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/bootstrap-datepicker.min.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/daterangepicker.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/style.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/jquery.toast.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/footable.bootstrap.min.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/docs.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/bootstrap-select.min.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/sweetalert.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/bootstrap-tagsinput.css}">
+		
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/jquery.dataTables.min.css}">
+		<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+		<!-- ADD AMPLEADMIN -->
+		
+		<link rel="stylesheet" type="text/css" th:href="@{/plugins/css/sap3.css}">
+	
+		
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.js"></script>
+	
+	</head>
+
+<body style="overflow-x: hidden;">
+
+<div class="container" th:fragment="header">
+  <nav id="barra_naveg" class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+  <a id="sidebarCollapse" class="navbar-brand" href="#"><i class="far fa-bars"></i> Dazzle <small>Ebisu Consulting</small></a>
+  <ul class="navbar-nav ml-auto">
+      <li class="nav-item active">
+      	  <font style="color: #346187;">
+          	<i class="fad fa-server"></i>&nbsp; <span th:text="${DatosUsuario.nombreTipoUsuario}"></span>
+          </font>
+          <div class="btn-group">
+            <button id="btn_user" type="button" class="btn btn-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: uppercase;">
+                <i class="fad fa-user"></i>&nbsp; <span th:text="${DatosUsuario.nombres}"></span> &nbsp;<i class="fal fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right sub_menu_user_up">
+              <!--<button id="btn_admin" style="display: none;" class="dropdown-item sub_menu_user" type="button"><i class="fad fa-tasks-alt"></i> Administrador</button>
+              <button id="btn_user_sap" style="display: none;" class="dropdown-item sub_menu_user" type="button"><i class="fad fa-user-circle"></i> Usuario SAP</button>-->
+              <a th:href="@{/logout}"><button class="dropdown-item sub_menu_user" type="button"><i class="fad fa-sign-out-alt"></i> Salir</button></a>
+            </div>
+          </div>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+<div class="wrapper" th:fragment="menu">
+  <!-- Sidebar  -->
+  <div id="sidebar">
+  	  <div class="user-profile">
+          <div class="dropdown user-pro-body">
+            <div><a th:href="@{/dashboard}"><img th:src="@{/plugins/img/users/imagen_empresa.png}" alt="user-img" class="img-circle"></a></div>
+         <a href="#" style="color: #346187; text-transform: uppercase; font-weight: 400;"><span th:text="${DatosUsuario.usuario}"></span></a>
+          </div>
+      </div>
+      <ul class="list-unstyled components">
+      	  <li id="pagina_principal" style="display: none;">
+              <a th:href="@{/dashboard}" style="font-size: 15px;"><i class="fad fa-home"></i> Página Principal</a>
+          </li>
+		  <li>
+			  <a href="#efactSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fad fa-file-invoice"></i> Registro CPE</a>
+			    <ul class="collapse list-unstyled" id="efactSubmenu">
+			        <li id="verificacion_facturas" style="display: none;">
+		            	<a href="verificacion_facturas" style="font-size: 15px;"><i class="fad fa-file-invoice"></i> e-Verificación CPE</a>
+		          	</li>
+		          	<li id="debito_credito" style="display: none;">
+		            	<a href="debito_credito" style="font-size: 15px;"><i class="fad fa-credit-card-front"></i> Notas de Débito y Crédito</a>
+		          	</li>
+		          	<li id="recibo_honorarios" style="display: none;">
+		            	<a href="recibo_honorarios" style="font-size: 15px;"><i class="fad fa-user"></i> Recibo por Honorarios</a>
+		          	</li>
+		          	<li id="bandeja_entrada" style="display: none;">
+              			<a href="bandeja_entrada" style="font-size: 15px;"><i class="fad fa-envelope-open-text"></i> e-Recepción</a>
+          			</li>
+          			<li>
+          				<a href="#sistinfSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fad fa-ellipsis-h-alt"></i> Sistema de Información</a>
+					    <ul class="collapse list-unstyled" id="sistinfSubmenu">
+		          			<li id="report_correos" style="display: none;">
+				            	<a href="report_correos" style="font-size: 15px;"><i class="fad fa-tasks"></i> Reporte Correos</a>
+				          	</li>
+		          			<li id="sistema_informacion" style="display: none;">
+				            	<a href="sistema_informacion" style="font-size: 15px;"><i class="fad fa-clipboard-list-check"></i> Reporte de Documentos</a>
+				          	</li>
+				          	<li id="log_sistema" style="display: none;">
+				            	<a href="log_sistema" style="font-size: 15px;"><i class="fad fa-clipboard-check"></i> Log del Sistema</a>
+				            </li>
+					    </ul>
+          			</li>
+          			<li>
+          				<a href="#emailSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fad fa-ellipsis-h-alt"></i> Herramientas</a>
+					    <ul class="collapse list-unstyled" id="emailSubmenu">
+					        <li id="conexion_correo" style="display: none;">
+		              			<a href="conexion_correo" style="font-size: 15px;"><i class="fad fa-mail-bulk"></i> Conexión Email</a>
+		          			</li>
+					    </ul>
+          			</li>
+			    </ul>
+		  </li>
+          <li>
+			  <a href="#bankingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fad fa-university"></i> Banking</a>
+			    <ul class="collapse list-unstyled" id="bankingSubmenu">
+			        <li id="administrar_bancos" style="display: none;">
+		            	<a href="administrar_bancos" style="font-size: 15px;"><i class="fad fa-key"></i> Administrar Bancos</a>
+		          	</li>
+			    </ul>
+		  </li>
+		  <li>
+			  <a href="#configSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fad fa-cogs"></i> Configuración</a>
+			    <ul class="collapse list-unstyled" id="configSubmenu">
+			        <li id="administrar_usuarios" style="display: none;">
+		            	<a href="administrar_usuarios" style="font-size: 15px;"><i class="fad fa-users"></i> Administrar Usuarios</a>
+		          	</li>
+			        <li id="editar_caracteristicas" style="display: none;">
+              			<a href="editar_caracteristicas" style="font-size: 15px;"><i class="fad fa-tools"></i> Editar Características</a>
+          			</li>
+          			<li id="audit_user" style="display: none;">
+              			<a href="audit_user" style="font-size: 15px;"><i class="fad fa-user-lock"></i> Audit User</a>
+          			</li>
+			    </ul>
+		  </li>
+      </ul>
+  </div>
+    
+    <!-- <div id="var_user" style="display: none;">${username}</div>
+    <div id="var_permisos" style="display: none;">${permisos}</div>
+    <div id="var_tipo" style="display: none;">${tipo}</div>-->
+    
+    <div style="width: 100%;height:100%;position: fixed;top: 0px;text-align:center;background: dimgray;opacity: 0.5;z-index: 1000000; display: none;" id="fondo">
+	  <img th:src="@{/images/loading.gif}" style="width: 20%;margin-top: 10%;">
+	</div>
+</div>
+
+<footer th:fragment="footer">
+<script th:src="@{/plugins/js/jquery-3.4.1.js}"></script>
+
+<script th:src="@{/plugins/js/jquery.dataTables.min.js}"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<!-- jQuery Custom Scroller CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<!-- ADD AMPLEADMIN -->
+<script th:src="@{/plugins/js/jquery.blockUI.js}"></script>
+<script th:src="@{/plugins/js/switchery.min.js}"></script>
+<script th:src="@{/plugins/js/jQuery.style.switcher.js}"></script>
+<script th:src="@{/plugins/js/custom-select.min.js}"></script>
+<script th:src="@{/plugins/js/jquery.multi-select.js}"></script>
+<script th:src="@{/plugins/js/moment.js}"></script>
+<script th:src="@{/plugins/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/plugins/js/daterangepicker.js}"></script>
+<script th:src="@{/plugins/js/jquery.toast.js}"></script>
+<script th:src="@{/plugins/js/toastr.js}"></script>
+<script th:src="@{/plugins/js/docs.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+<script th:src="@{/plugins/js/footable.min.js}"></script>
+<script th:src="@{/plugins/js/bootstrap-select.min.js}"></script>
+<script th:src="@{/plugins/js/sweetalert.min.js}"></script>
+<script th:src="@{/plugins/js/jquery.sweet-alert.custom.js}"></script>
+
+
+
+<script th:src="@{/plugins/js/bootstrap-tagsinput.min.js}"></script>
+<!-- ADD AMPLEADMIN-->
+
+<script th:src="@{/plugins/js/bootstrap.min.js}"></script>
+
+<script type="text/javascript">
+   $(document).ready(function () {
+   		  
+   
+       $("#sidebar").mCustomScrollbar({
+           theme: "minimal"
+       });
+
+       $('#sidebarCollapse').on('click', function () {
+           $('#sidebar, #content').toggleClass('active');
+           $('.collapse.in').toggleClass('in');
+           $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+       });
+
+       // Switchery
+       var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+       $('.js-switch').each(function () {
+           new Switchery($(this)[0], $(this).data());
+       });
+       
+       // Select 2
+       $(".select2").select2();
+       jQuery('#datepicker-autoclose').datepicker({
+           autoclose: true
+           , todayHighlight: true
+       });
+       
+       // Date Picker
+       jQuery('.mydatepicker, #datepicker').datepicker();
+       // Daterange picker
+       $('.input-daterange-datepicker').daterangepicker({
+           buttonClasses: ['btn', 'btn-sm']
+           , applyClass: 'btn-danger'
+           , cancelClass: 'btn-inverse'
+       });
+
+       //Button Date Picker
+       $(".applyBtn").removeClass("btn-danger");
+       $(".applyBtn").addClass("btn-sap");
+       
+       $(".cancelBtn").removeClass("btn-inverse");
+       $(".cancelBtn").addClass("btn-outline-secondary");
+
+
+       $('#TableReportes2').DataTable();
+
+    	 
+       setTimeout(function(){ 
+ 			var ancho = window.innerWidth;
+ 			var alto = window.innerHeight;
+ 			//1389
+ 			if(ancho<='1412'){
+	           $('#sidebar, #content').toggleClass('active');
+	           $('.collapse.in').toggleClass('in');
+	           $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+ 			}
+       }, 500);
+   });
+</script>
+
+<script type="text/javascript">
+	var contadorAfk = 0;
+	$(document).ready(function () {
+	    //Cada minuto se lanza la función ctrlTiempo
+	    var contadorAfk = setInterval(ctrlTiempo, 15000); 
+	
+	    //Si el usuario mueve el ratón cambiamos la variable a 0.
+	    $(this).mousemove(function (e) {
+	        contadorAfk = 0;
+	        //console.log("movio mouse");
+	    });
+	    //Si el usuario presiona alguna tecla cambiamos la variable a 0.
+	    $(this).keypress(function (e) {
+	        contadorAfk = 0;
+	        //console.log("presiono teclado");
+	    });
+	});
+	
+	function ctrlTiempo() {
+	    contadorAfk++;
+	    //Se comprueba si ha pasado del tiempo que designemos.
+	    if (contadorAfk > 590) { // Más de 59 minutos, lo detectamos como ausente o inactivo.
+	        //La función o código que necesites para cerrar la sesión del usuario.
+	    	//console.log("usuario inactivo");
+	    	location.href="/Dazzle/logout";
+	    }
+	}
+</script>  
+
+
+</footer>
+</body>
+</html>
+        
+ 

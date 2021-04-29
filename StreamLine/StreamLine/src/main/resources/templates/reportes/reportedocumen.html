@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta charset="UTF-8" />
+	<head th:replace="layouts/templateLogin::head"></head>
+	
+
+	<body>
+
+		<div th:replace="layouts/templateLogin::header"></div>
+		<div th:replace="layouts/templateLogin::menu"></div>
+	
+		<div id="content" class="container-fluid">			
+			<br>
+			<div class="row" style="background:#f5f5f5;">
+				<div class="col-lg-12">	
+					<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' />
+	 				<div class="mail-box">
+		 				<div class="form-body">
+						        <h4 class="box-title" style="color: #346187 !important; font-size: 18px; font-weight: 400; text-shadow: 0 0 0.125rem #ffffff;">
+				                	<i class="fad fa-cogs"></i> <a href="#">Reporte de Documentos contabilizados</a>
+				                </h4>
+				                <hr class="m-t-0 m-b-30">
+				                <div class="nav-container">
+								  <div class="col-md-12 row">
+    							<div class="input-group col-md-3">
+    								<input type="search" placeholder="Buscar" id="search_correo_pend" class="form-control py-2 border-right-0 border"> 
+    								<span class="input-group-append">
+    									<button type="button" class="btn btn-outline-secondary border-left-0 border">
+    										<i class="fa fa-search"></i>
+    									</button>
+    								</span>
+    							</div> 
+    							<div class="col-md-2">
+    								<select id="select_tip_search" class="form-control form-control-sm ">
+    									<option value="este_mes">Este Mes</option> 
+    									<option value="este_anio">Este Año</option> 
+    									<option value="total">Total</option>
+    								</select>
+    							</div>
+    						</div>
+    						<br>
+    						<div class="table-responsive">
+    						 		<div id="table_inbox_email_comp_wrapper" class="dataTables_wrapper no-footer">
+    						 			<div class="dataTables_length" id="table_inbox_email_comp_length" style="display: none;">
+    						 				<label>Mostrar 
+    						 					<select name="table_inbox_email_comp_length" aria-controls="table_inbox_email_comp" class="">
+    						 						<option value="10">10</option>
+    						 						<option value="25">25</option>
+    						 						<option value="50">50</option>
+    						 						<option value="100">100</option>
+    						 					</select> entradas
+    						 				</label>
+    						 			</div>
+    						 					<div id="table_inbox_email_comp_filter" class="dataTables_filter" style="display: none;">
+    						 						<label>Buscar:
+    						 							<input type="search" class="" placeholder="" aria-controls="table_inbox_email_comp">
+    						 						</label>
+    						 					</div>
+    						 					<table id="table_inbox_email_comp" class="table table2 table2-hover table-sm no-footer dataTable" role="grid" aria-describedby="table_inbox_email_comp_info">
+    						 						<thead class="thead-dark">
+    						 							<tr style="background-color: rgb(242, 242, 242);" role="row">
+    						 								<th class="text-center sorting" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="&amp;nbsp;: activate to sort column ascending" style="width: 26px;">
+    						 								&nbsp;</th>
+    						 							<th class="text-center sorting" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="#: activate to sort column ascending" style="width: 42px;">
+    						 								#</th>
+    						 							<th class="text-left sorting_desc" style="display: none; width: 44.375px;" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="Codigo: activate to sort column ascending" aria-sort="descending">Codigo</th>
+    						 							<th class="text-left sorting" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="Servidor de Correo: activate to sort column ascending" style="width: 572px;">Servidor de Correo</th>
+    						 							<th class="text-center sorting" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="Fecha: activate to sort column ascending" style="width: 81px;">Fecha</th>
+    						 							<th class="text-center sorting" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="Hora: activate to sort column ascending" style="width: 65px;">Hora</th>
+    						 							<th class="text-center sorting" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="&amp;nbsp;: activate to sort column ascending" style="width: 34px;">&nbsp;</th>
+    						 							<th class="text-center sorting" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="&amp;nbsp;: activate to sort column ascending" style="width: 26px;">&nbsp;</th>
+    						 							<th class="text-left sorting" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="Correo de la BD: activate to sort column ascending" style="width: 572px;">Correo de la BD</th>
+    						 							<th class="text-center sorting" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="Fecha: activate to sort column ascending" style="width: 81px;">Fecha</th>
+    						 							<th class="text-center sorting" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="Hora: activate to sort column ascending" style="width: 65px;">Hora</th>
+    						 							<th class="text-center sorting" tabindex="0" aria-controls="table_inbox_email_comp" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 106px;">Status</th>
+    						 						</tr>
+    						 					</thead>
+    						 					<tbody>
+    						 						<tr id="tr_correo_0" title="TITULO DEL CORREO: MARINASOL S.A. FACT.ELECT.E001-1761 (EXPORTACIONES FEBRERO 2021)" role="row" class="odd">
+    						 							<td class="text-left" style="vertical-align: middle;">
+    						 								<i title="Servidor de Correo" class="fad fa-envelope" style="font-size: 16px;"></i>
+    						 							</td> 
+    						 							<td class="text-center" style="vertical-align: middle;">1614</td>
+    						 							 <td class="text-left sorting_1" style="vertical-align: middle; display: none;">10945</td>
+    						 							  <td class="text-left" style="vertical-align: middle;">cpoemape@gestoraempresarial.com</td> <td class="text-center" style="vertical-align: middle;">24/03/2021</td>
+    						 							   <td class="text-center" style="vertical-align: middle;">11:37:11</td>
+    						 							    <td class="text-center" style="vertical-align: middle;">-----</td>
+    						 							     <td class="text-center" style="vertical-align: middle;"><i title="Correctamente Descargado" class="fad fa-check-circle" style="color: rgb(32, 201, 53); font-size: 16px;"></i> <!----></td> 
+    						 							     <td class="text-left" style="vertical-align: middle;"><font>cpoemape@gestoraempresarial.com</font> <!----></td> 
+    						 							     <td class="text-center" style="vertical-align: middle;">24/03/2021</td>
+    						 							      <td class="text-center" style="vertical-align: middle;">11:37:11</td>
+    						 							       <td class="text-center" style="vertical-align: middle;"><!----> <font style="color: rgb(43, 124, 43);">Contabilizado</font> <!----> <!----> <!----></td>
+    						 							   </tr>
+    						 							   </tbody>
+    						 							</table>
+    						 							<div class="dataTables_info" id="table_inbox_email_comp_info" role="status" aria-live="polite" style="display: none;">Mostrando 1 a 17 de 1,614 entradas</div>
+    						 							<div class="dataTables_paginate paging_simple_numbers" id="table_inbox_email_comp_paginate">
+    						 								<a class="paginate_button previous disabled" aria-controls="table_inbox_email_comp" data-dt-idx="0" tabindex="0" id="table_inbox_email_comp_previous">Anterior</a>
+    						 								<span>
+    						 									<a class="paginate_button current" aria-controls="table_inbox_email_comp" data-dt-idx="1" tabindex="0">1</a>
+    						 									<a class="paginate_button " aria-controls="table_inbox_email_comp" data-dt-idx="2" tabindex="0">2</a>
+    						 									<a class="paginate_button " aria-controls="table_inbox_email_comp" data-dt-idx="3" tabindex="0">3</a>
+    						 									<a class="paginate_button " aria-controls="table_inbox_email_comp" data-dt-idx="4" tabindex="0">4</a>
+    						 									<a class="paginate_button " aria-controls="table_inbox_email_comp" data-dt-idx="5" tabindex="0">5</a>
+    						 									<span class="ellipsis">…</span>
+    						 									<a class="paginate_button " aria-controls="table_inbox_email_comp" data-dt-idx="6" tabindex="0">95</a>
+    						 								</span>
+    						 									<a class="paginate_button next" aria-controls="table_inbox_email_comp" data-dt-idx="7" tabindex="0" id="table_inbox_email_comp_next">Siguiente</a>
+    						 							</div>
+    						 						</div>
+    						 					</div>
+    						 					<br>
+								  
+							    </div>												        
+		                </div> 				
+	 				</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
+		
+		
+		<footer th:replace="layouts/templateLogin::footer"></footer>
+	</body>
+	
+	
+</html>
+
+

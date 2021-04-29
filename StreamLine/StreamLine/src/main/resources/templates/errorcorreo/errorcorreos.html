@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta charset="UTF-8" />
+	<head th:replace="layouts/templateLogin::head"></head>
+	
+	<body>
+
+		<div th:replace="layouts/templateLogin::header"></div>
+		<div th:replace="layouts/templateLogin::menu"></div>
+	
+			<div id="content" class="container-fluid">			
+					<br>
+					<div class="row" style="background:#f5f5f5;">
+						<div class="col-lg-12">	
+			 				<div class="mail-box">
+				 				<div class="form-body">
+								        <h4 class="box-title" style="color: #346187 !important; font-size: 18px; font-weight: 400; text-shadow: 0 0 0.125rem #ffffff;">
+						                	<i class="fad fa-cogs"></i> <a href="#">Logs del Sistema</a>
+						                </h4>
+						                <hr class="m-t-0 m-b-30">
+						                
+						                <div>
+						                	<nav>
+											  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+											    <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Correos Rechazados</a>
+											    <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Log de Descarga</a>
+											    <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Log de Validación</a>
+											  </div>
+											</nav>
+											<div class="tab-content" id="nav-tabContent">
+											  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+											  	<button class="btn btn-info pull-right" onClick="buscar_correos()">Buscar Correos Rechazados</button>
+											  	<br clear="all">
+											  	<br>
+											  	<div class="table-responsive">
+												  	<table class="table table-bordered table-hover table-striped" id="tabla_correo_rechazados">
+												  		<thead>
+												  			<tr>
+												  				<th>Correo</th>
+												  				<th>Asunto</th>
+												  				<th>Mensaje Enviado</th>
+												  				<th>Fecha de envio</th>
+												  			</tr>
+												  		</thead>
+												  		<tbody style="font-size: 13px;">
+												  		</tbody>
+												  	</table>
+												  </div>
+											  </div>
+											  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+											  
+											  	<button class="btn btn-info pull-right" onClick="buscar_log_descarga()">Buscar Log de Descarga</button>
+											  	<br clear="all">
+											  	<br>
+											  	<div class="table-responsive">
+												  	<table class="table table-bordered table-hover table-striped" id="tabla_log_descarga">
+												  		<thead>
+												  			<tr>
+												  				<th>Correo</th>
+												  				<th>Asunto</th>
+												  				<th>Mensaje de Error</th>
+												  				<th>Función</th>
+												  				<th>Fecha de envio</th>
+												  			</tr>
+												  		</thead>
+												  		<tbody style="font-size: 13px;">
+												  		</tbody>
+												  	</table>
+												  </div>
+											  
+											  </div>
+											  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+											  
+											  <button class="btn btn-info pull-right" onClick="buscar_log_validacion()">Buscar Log de Validación</button>
+											  	<br clear="all">
+											  	<br>
+											  	<div class="table-responsive">
+												  	<table class="table table-bordered table-hover table-striped" id="tabla_log_validacion">
+												  		<thead>
+												  			<tr>
+												  				<th>Correo</th>
+												  				<th>Asunto</th>
+												  				<th>Mensaje de Error</th>
+												  				<th>Archivo</th>
+												  				<th>Fecha de envio</th>
+												  			</tr>
+												  		</thead>
+												  		<tbody style="font-size: 13px;">
+												  		</tbody>
+												  	</table>
+												  </div>
+											  
+											  </div>
+											</div>
+						                </div>					                
+						            	<br>
+						            	<br>																		        
+				                </div> 				
+			 				</div>
+						</div>
+					</div>
+				</div>
+		
+		
+		<footer th:replace="layouts/templateLogin::footer"></footer>
+		<script th:src="@{/plugins/js/script_logs.js}" ></script>
+	</body>
+	
+	
+</html>
+
+
+
+
+
+
+

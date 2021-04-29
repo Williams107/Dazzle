@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta charset="UTF-8" />
+	<head th:replace="layouts/templateLogin::head"></head>
+	
+
+	<body>
+
+		<div th:replace="layouts/templateLogin::header"></div>
+		<div th:replace="layouts/templateLogin::menu"></div>
+	
+		<div id="content" class="container-fluid">			
+			<br>
+			<div class="row" style="background:#f5f5f5;">
+				<div class="col-lg-12">	
+					<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' />
+	 				<div class="mail-box">
+		 				<div class="form-body">
+						        <h4 class="box-title" style="color: #346187 !important; font-size: 18px; font-weight: 400; text-shadow: 0 0 0.125rem #ffffff;">
+				                	<i class="fad fa-cogs"></i> <a href="#">Administrar Bancos</a>
+				                </h4>
+				                <hr class="m-t-0 m-b-30">
+				                <div style="padding-left: 20px;">
+				                	<form class="form-inline">
+									  <div class="form-group mb-2">
+									   <label style="padding-right: 60px;">Fecha inicial:</label>
+									  </div>
+									  <div class="form-group mx-sm-3 mb-2"style="padding-left:29.5px ;">									    
+									    <input type="date" class="form-control" >
+									  </div>
+									  <div class="form-group mb-2">
+									   <label style="padding-right: 60px;">Fecha final:</label>									    
+									  </div>
+									  <div class="form-group mx-sm-3 mb-2">									    
+									    <input type="date" class="form-control">
+									  </div>
+									  <div class="form-group mx-sm-3 mb-2">
+									  <button type="submit" class="btn btn-primary mb-2" style="color: white;width: 200px;"><i class="fad fa-cogs" style="margin:5px; color: white;"></i>Configuracion</button>
+									  </div>
+									</form>	
+									<form class="form-inline">
+									  <div class="form-group mb-2">
+									  	<label style="padding-right: 60px;">Numero de Días:</label>									   
+									  </div>
+									  <div class="form-group mx-sm-3 mb-2">									    
+									    <input type="text" class="form-control" style="width: 189.5px;">
+									  </div>
+									  <div class="form-group mb-2">
+									  	<label style="padding-right: 60px;">Mandante:</label>									   
+									  </div>
+									  <div class="form-group mx-sm-3 mb-2"style="padding-left:10px ;">									    
+									   <select class="form-control" id="exampleFormControlSelect1" style="width: 189.5px;">
+									      <option>...</option>
+									      <option>2</option>
+									      <option>3</option>
+									      <option>4</option>
+									      <option>5</option>
+									    </select>
+									  </div>
+									  <di style="margin: 5px;">
+									  <button type="submit" class="btn  mb-2" style="background: rgb(192, 192, 192);color: rgb(0, 0, 0);width: 100px;">Limpiar</button>
+									   <button type="submit" class="btn btn-primary mb-2" style="color: white;width: 100px;"><i class="fad fa-file-search"style="margin:2px; color: white;"></i>Buscar</button>
+									  </di>
+									</form>
+				                </div>	
+				                <table class="table">
+									  <thead class="thead-dark" style="font-size: 12px;">
+									   <tr>
+									      <th scope="col">Item</th>
+									      <th scope="col">Mandatnte</th>
+									      <th scope="col">Descripción</th>								  
+									      <th scope="col">Fecha</th>
+									      <th scope="col">Hora</th>									      
+									    </tr>
+									  </thead>
+									   <tbody style="font-size: 12px;">
+									    <tr>
+									      <th scope="row">1</th>
+									      <td>Mark</td>
+									      <td>Otto</td>
+									      <td>@mdo</td>
+									      <td>Mark</td>									     								        
+									    </tr>  
+									    <tr>
+									      <th scope="row">1</th>
+									      <td>Mark</td>
+									      <td>Otto</td>
+									      <td>@mdo</td>
+									      <td>Mark</td>									     								           
+									    </tr>    
+									  </tbody>
+									</table>
+												        
+		                </div> 				
+	 				</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
+		
+		
+		<footer th:replace="layouts/templateLogin::footer"></footer>
+	</body>
+	
+	
+</html>

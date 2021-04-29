@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<meta charset="UTF-8" />
+	<head th:replace="layouts/templateLogin::head"></head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.css">
+	<body>
+
+		<div th:replace="layouts/templateLogin::header"></div>
+		<div th:replace="layouts/templateLogin::menu"></div>
+	
+		<div id="content" class="container-fluid">			
+			<br>
+			<div class="row" style="background:#f5f5f5;">
+				<div class="col-lg-12">	
+	 				<div class="mail-box">
+		 				<div class="form-body">
+						<h4 class="box-title"
+							style="color: #346187 !important; font-size: 18px; font-weight: 400; text-shadow: 0 0 0.125rem #ffffff;">
+							<i class="fad fa-cogs"></i> <a href="#">Reporte de correos</a>
+						</h4>
+						<hr class="m-t-0 m-b-30">
+						<div class="nav-container">
+							
+							<div class="col-lg-12">
+								<button class="btn btn-info btn-lg pull-right" data-toggle="modal" data-target="#modal-actualizar-datos" onclick="limpiar_formulario()">Agregar Usuario</button>
+								<br clear="all">
+								<br clear="all">
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped table-hover" id="tabla_usuarios">
+										<thead>
+											<tr>
+												<th>Nombres y Apellidos</th>
+												<th>N° Documento</th>
+												<th>Usuario</th>
+												<th>Correo</th>
+												<th>Empresa</th>
+												<th>Tipo Usuario</th>
+												<th>Accesos</th>
+												<th>Estado</th>
+												<th>Acción</th>	
+											</tr>
+										</thead>
+										<tbody style="font-size: 13px;">
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<br>
+							</div>							
+						</div>
+					</div> 				
+	 				</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal-cambiar-clave" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h3 class="modal-title" id="exampleModalLabel">Actualizar Clave</h3>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        
+		        <form id="form-cambiar-clave">
+				  <div class="form-group">
+				    <label for="clave_actual">Ingrese su clave actual:</label>
+				    <input type="password" class="form-control" id="clave_actual" aria-describedby="emailHelp" name="clave_actual">
+				    <input type="hidden" id="idUsuario_clave" name="idUsuario_clave" />
+				    <small id="emailHelp" class="form-text text-muted">Por seguridad ingrese su clave actual.</small>
+				  </div>
+				  <div class="form-group">
+				    <label for="nueva_clave">Ingrese nueva clave:</label>
+				    <input type="password" class="form-control" id="nueva_clave" name="nueva_clave">
+				  </div>
+				
+				  <button type="submit" class="btn btn-primary">Actualizar Clave</button>
+				</form>
+		        
+		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal-actualizar-datos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h3 class="modal-title" id="exampleModalLabel">Actualizar Datos</h3>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        
+		        <form id="form-actualizar-usuarios">
+				  <div class="form-row">
+					  <div class="form-group col-lg-6">
+					    <label for="nombres_actualizar">Nombres:</label>
+					    <input type="text" class="form-control" id="nombres_actualizar" name="nombres_actualizar" required>
+					    <input type="hidden" id="idusuario_actualizar" name="idusuario_actualizar" />
+					  </div>
+					  <div class="form-group col-lg-6">
+					    <label for="apellido_actualizar">Apellidos:</label>
+					    <input type="text" class="form-control" id="apellido_actualizar" name="apellido_actualizar" required>
+					  </div>
+				  </div>
+				  
+				  <div class="form-row">
+					  <div class="form-group col-lg-6">
+					    <label for="doc_actualizar">N° Documento:</label>
+					    <input type="text" class="form-control" id="doc_actualizar" name="doc_actualizar" required>
+					  </div>
+					  
+					  <div class="form-group col-lg-6">
+					    <label for="usuario_actualizar">Usuario:</label>
+					    <input type="text" class="form-control" id="usuario_actualizar" name="usuario_actualizar" required>
+					  </div>
+				  </div>
+				  
+				  <div class="form-row">
+					  <div class="form-group col-lg-6">
+					    <label for="correo_actualizar">Correo:</label>
+					    <input type="text" class="form-control" id="correo_actualizar" name="correo_actualizar" required>
+					  </div>
+					  
+					  <div class="form-group col-lg-6">
+					    <label for="empresa_actualizar">Empresa:</label>
+					    <select class="custom-select my-1 mr-sm-2" id="empresa_actualizar" name="empresa_actualizar" required>
+						    <option></option>
+						    <option th:each="empresa : ${empresas}"
+				                th:value="${empresa.idEmpresa}"
+				                th:text="${empresa.nombre}"></option>
+						  </select>
+					  </div>
+				  </div>
+				  
+				  <div class="form-row">
+					  <div class="form-group col-lg-6">
+					    <label for="tipo_usuario">Tipo Usuario:</label>
+					    <select class="custom-select my-1 mr-sm-2" id="tipo_usuario" onChange="validar_campo()" name="tipo_usuario" required>
+						    <option></option>
+						    <option th:each="tipo : ${tipo_usuarios}"
+				                th:value="${tipo.idTipo}"
+				                th:text="${tipo.nombre}"></option>
+						  </select>
+					  </div>
+					  
+					  <div class="form-group col-lg-6">
+					    <label for="nueva_clave">Accesos:</label>
+					    <select id="accesos" name="accesos" multiple>
+					    	 <option th:each="modulo : ${modulos}"
+				                th:value="${modulo.idModulo}"
+				                th:text="${modulo.nombre}"></option>
+					    </select>
+					  </div>	
+				  </div>
+					<div class="form-row" id="div-clave">
+						<div class="form-group col-lg-6">
+							<label for="clave_actualizar">Clave:</label> 
+							<input type="password" class="form-control" id="clave_actualizar" name="clave_actualizar">
+						</div>
+					</div>
+						<div class="contenedor"></div>	  
+				
+				  <button type="submit" class="btn btn-primary">Actualizar Datos</button>
+				</form>
+		        
+		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+				
+		<footer th:replace="layouts/templateLogin::footer"></footer>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.min.js"></script>
+		<script th:src="@{/plugins/js/script_usuarios.js}" ></script>
+	</body>
+		
+</html>
