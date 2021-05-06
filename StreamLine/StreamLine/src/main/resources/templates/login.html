@@ -80,7 +80,7 @@
 			$.ajax({
 				contentType: false,
 				dataType: "json",
-				url: "/validarCredenciales",
+				url: "/Dazzle/validarCredenciales",
 				method: "post",
 				data: new FormData(this),
 				cache: false,
@@ -98,7 +98,7 @@
 		 				toastr.error(data['mensaje']);
 		 			}
 		 			else{
-		 				location.href="/dashboard";
+		 				location.href="/Dazzle/dashboard";
 		 			}
 		 		}
 			});

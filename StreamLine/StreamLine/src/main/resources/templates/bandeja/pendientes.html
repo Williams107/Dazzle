@@ -17,16 +17,16 @@
  				<div class="mail-box">                 
                   
                   <aside class="lg-side">
-                      <div class="inbox-head">
+                      <div class="inbox-head" style="background:#c9d8e7 ;">
                           <h3><strong>Bandeja de correos</strong></h3>
                           <form id="formulario-busqueda" class="pull-right position" style="width: 50%;">
                               <div class="input-append" >
                                   <input type="text" class="sr-input" id="asunto-busqueda" required placeholder="Buscar correos" style="width: 80%;" />
-                                  <button class="btn sr-btn" type="submit"><i class="fa fa-search"></i></button>
+                                  <button class="btn" style="background: #427cac;" type="submit"><i class="fa fa-search" style="color: white;"></i></button>
                               </div>
                           </form>
                       </div>
-                      <div class="inbox-body">                      
+                      <div class="inbox-body" style="background: #f5f5f5;">                      
                                      
                          <div class="row" >
                          <div class="col-lg-6">
@@ -37,7 +37,7 @@
                          	<td style="width: 15%;">
                          		                             	
                              	<div class="dropdown">
-								  <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: #a9c6de;">
 								    Filtrar Correos
 								  </button>
 								  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -50,11 +50,13 @@
                          	
                          	<td style="text-align: left;">
                          		
-	                                 <a data-original-title="Refresh" onClick="refrescar_bandeja()" data-placement="top" data-toggle="dropdown" href="#" class="btn btn-info">
+	                                 <a data-original-title="Refresh" onClick="refrescar_bandeja()" data-placement="top" data-toggle="dropdown" href="#" class="btn" style="background: #a9c6de ;">
 	                                     <i class=" fa fa-refresh"></i>
 	                                 </a>
 	                             
                          	</td>
+                         	
+                         	<td style="width: 10%;"><span class="label label-info" id="total-correos"></span></td>
                          	
                          	<td style="">
                          		<div class="alert alert-secondary alert-dismissible fade show" style="padding: 9px 9px;margin:0px;display:none;" role="alert" id="alerta_filtro">
@@ -68,8 +70,8 @@
                          	
                          	</tr>
                          </table>
-                         <div class="table-responsive estilo-scroll" style="font-size: 12px;max-height: 420px;overflow-y:auto;" id="contenedor-correo">
-                          <table class="table table-inbox table-hover" id="tabla-bandeja">
+                         <div class="table-responsive estilo-scroll" style="font-size: 12px;max-height: 420px;overflow-y:auto;" id="contenedor-correo" >
+                          <table class="table table-inbox table-hover" style="background: white;" id="tabla-bandeja">
                           	
                             <tbody id="cuerpo"></tbody>
                           </table>

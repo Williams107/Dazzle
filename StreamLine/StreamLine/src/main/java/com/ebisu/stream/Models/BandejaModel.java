@@ -15,19 +15,19 @@ public class BandejaModel {
 	
 	public List<Map<String, Object>> consultar_correos(String consulta){
 		
-		String sql = "SELECT TOP 10 idEmail, asunto,leido, envia, cuerpo, archivos,fecha,numeroEmail, CAST(fecha AS time(7)) AS hora,  convert(nvarchar(10), fecha, 101) as dia, "
+		String sql = "SELECT TOP 10 idEmail, asunto,leido, envia, cuerpo, archivos,fecha,numeroEmail, CAST(fecha AS time(7)) AS hora,  convert(nvarchar(10), fecha, 3) as dia, "
 				+ "(select count(estado) FROM archivos_email WHERE estado=1 and idEmail=email.idEmail ) as cantidad_archivos,IIF(leido=0,'unread','read') as estado_leido,  "
 				+ "IIF(verificado<>0,1,0) as validado, "
 				+ "IIF(verificado=0,'PENDIENTE VALIDACIÓN',IIF(verificado=1,'ARCHIVOS COMPLETOS','FALTA ARCHIVOS') ) as estado_validacion, "
 				+ "IIF(verificado=0,'warning', IIF(verificado=1,'success','danger') ) as label "
-				+ "FROM email WHERE estado=1 "+consulta+" order by numeroEmail desc";
+				+ "FROM email WHERE estado=1 "+consulta+" order by fecha desc";
 		List<Map<String, Object>> filas = jdbc.queryForList(sql);
 		return filas;
 	}
 	
 	public List<Map<String, Object>> consultar_correos_asunto(String asunto){
 		
-		String sql = "SELECT em.idEmail, em.asunto,em.leido, em.envia, em.cuerpo, em.archivos,fecha,numeroEmail, CAST(em.fecha AS time(7)) AS hora,  convert(nvarchar(10), em.fecha, 101) as dia, "
+		String sql = " SELECT em.idEmail, em.asunto,em.leido, em.envia, em.cuerpo, em.archivos,em.fecha,numeroEmail, CAST(em.fecha AS time(7)) AS hora,  convert(nvarchar(10), em.fecha, 103) as dia, "
 				+ "(select count(estado) FROM archivos_email WHERE estado=1 and idEmail=em.idEmail ) as cantidad_archivos,IIF(em.leido=0,'unread','read') as estado_leido,  "
 				+ "IIF((select count(estado) FROM validacion_email WHERE estado=1 and idEmail=em.idEmail )>0,1,0) as validado, "
 				+ "IIF((select count(estado) FROM validacion_email WHERE estado=1 and idEmail=em.idEmail )>0,'VALIDADO','PENDIENTE' ) as estado_validacion, "
@@ -35,7 +35,8 @@ public class BandejaModel {
 				+ "FROM email as em full outer join validacion_xml_pdf as vx on em.idEmail=vx.idEmail "
 				+ "WHERE em.estado=1 AND (coalesce(convert(nvarchar(max), vx.NumFact),'') + coalesce(convert(nvarchar(max), vx.ruc),'') + "
 				+ "coalesce(convert(nvarchar(max), em.asunto),'') + coalesce(convert(nvarchar(max),em.cuerpo),'') "
-				+ "+ coalesce(convert(nvarchar(max),em.envia),'')) like '%"+asunto+"%' order by em.numeroEmail desc";
+				+ "+ coalesce(convert(nvarchar(max),em.envia),'') + coalesce(convert(nvarchar(max),CAST(em.fecha as date), 103),'')) "
+				+ "like '%"+asunto+"%' order by em.numeroEmail desc ";
 		List<Map<String, Object>> filas = jdbc.queryForList(sql);
 		return filas;
 	}
@@ -49,7 +50,7 @@ public class BandejaModel {
 	
 	public List<Map<String, Object>> consultar_filtro_correo(String consulta){
 			
-			String sql = "SELECT TOP 10 idEmail, asunto,leido, envia, cuerpo, archivos,fecha,numeroEmail, CAST(fecha AS time(7)) AS hora,  convert(nvarchar(10), fecha, 101) as dia, "
+			String sql = "SELECT TOP 10 idEmail, asunto,leido, envia, cuerpo, archivos,fecha,numeroEmail, CAST(fecha AS time(7)) AS hora,  convert(nvarchar(10), fecha, 103) as dia, "
 					+ "(select count(estado) FROM archivos_email WHERE estado=1 and idEmail=email.idEmail ) as cantidad_archivos,IIF(leido=0,'unread','read') as estado_leido,  "
 					+ "IIF((select count(estado) FROM validacion_email WHERE estado=1 and idEmail=email.idEmail )>0,1,0) as validado, "
 					+ "IIF((select count(estado) FROM validacion_email WHERE estado=1 and idEmail=email.idEmail )>0,'VALIDADO','PENDIENTE' ) as estado_validacion, "
@@ -61,7 +62,7 @@ public class BandejaModel {
 	
 	public List<Map<String, Object>> consultar_correo_id(String id){
 		
-		String sql = "SELECT idEmail, asunto, envia, cuerpo, archivos,fecha,verificado,numeroEmail, CAST(fecha AS time(7)) AS hora,  convert(nvarchar(10), fecha, 101) as dia "
+		String sql = "SELECT idEmail, asunto, envia, cuerpo, archivos,fecha,verificado,numeroEmail, CAST(fecha AS time(7)) AS hora,  convert(nvarchar(10), fecha, 103) as dia "
 					+ "FROM email WHERE estado=1 and idEmail="+id;
 		List<Map<String, Object>> filas = jdbc.queryForList(sql);
 		return filas;

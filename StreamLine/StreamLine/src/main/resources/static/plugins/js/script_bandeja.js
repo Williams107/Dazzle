@@ -126,7 +126,7 @@ filtro = "0";
 		            	for(var i=0;i<data['datos'].length;i++){
 		            	
 		            		$("#cuerpo").append('<tr class="'+data['datos'][i].estado_leido+'" id="'+data['datos'][i].idEmail+'" onClick="mostrar_correo('+data['datos'][i].idEmail+','+data['datos'][i].leido+','+data['datos'][i].validado+')">'+	
-		            			'<td class="view-message">'+data['datos'][i].numeroEmail+'</td>'+                       
+		            			//'<td class="view-message">'+data['datos'][i].numeroEmail+'</td>'+                       
 		                       '<td class="view-message">'+escapeHtml(data['datos'][i].envia)+'<br><span class="label label-'+data['datos'][i].label+'">'+data['datos'][i].estado_validacion+'</span> </td>'+
 		                       '<td class="view-message">'+data['datos'][i].asunto+'</td>'+
 		                       '<td class="view-message inbox-small-cells"></td>'+
@@ -349,7 +349,7 @@ filtro = "0";
 		            	for(var i=0;i<data['datos'].length;i++){
 		            	
 		            		$("#cuerpo").append('<tr class="'+data['datos'][i].estado_leido+'" id="'+data['datos'][i].idEmail+'" onClick="mostrar_correo('+data['datos'][i].idEmail+','+data['datos'][i].leido+','+data['datos'][i].validado+')">'+	
-		            			'<td class="view-message">'+data['datos'][i].numeroEmail+'</td>'+                       
+		            			//'<td class="view-message">'+data['datos'][i].numeroEmail+'</td>'+                       
 		                       '<td class="view-message dont-show">'+data['datos'][i].envia+' <br><span class="label label-'+data['datos'][i].label+'">'+data['datos'][i].estado_validacion+'</span> </td>'+
 		                       '<td class="view-message">'+data['datos'][i].asunto+'</td>'+
 		                       '<td class="view-message inbox-small-cells"></td>'+

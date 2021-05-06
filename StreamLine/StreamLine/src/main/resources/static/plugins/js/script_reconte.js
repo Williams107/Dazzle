@@ -4,7 +4,7 @@ function format(d) {
 	$.ajax({
 		url: "/Dazzle/Rcontenido/obtenerDetalles/",
 		type: "POST",
-		data: '' + d['idEmail'],
+		data: '' + d['idEmail']+';'+d['ruc']+';'+d['NumFact'],
 		contentType: "text/plain",
 		dataType: 'json',
 		async: false,
@@ -18,170 +18,174 @@ function format(d) {
 		success: function(data) {
 			$("#fondo").css("display", "none");
 
-				
-
-///////////--detalle--/////////
-
 			if (data['code'] == 1) {
 
-				html = '<table class="table table-bordered table-hover table-striped" cellpadding="5" style="padding-left:50px;text-align: left;width:100%">' +
-					'<tr style="background: white;">' +
-					'<td style="width: 20%;" >' +
-					'<strong Style="font-size: 15px;color: #5288c1;">' + 'Datos:' + '</strong>' + '<br>' +
-					'Id Correo: ' + data['datosCorreo'][0].numeroEmail + '<br>' +
-					'Fecha / Hora:' + data['datosCorreo'][0].fecha + '<br>' +
-					'Correo: ' + data['datosCorreo'][0].correo + '<br>' +
-
-					'</td>' +
-
-					'<td style="width: 22%;" >' +
-					'<strong Style="font-size: 15px;color: #5288c1;">' + 'Recepción de Documentos:' + '</strong>' + '<br>' +
-					'RUC:  ' + data['datosDoc'][0].ruc  +' / ' + data['datosDoc'][0].NumFact + '<br>' +
-					'<i class="far fa-file-code fa-lg" style="font-size: 18px;"> </i>'+' XML: ' + (data['datosDoc'][0].XMLS != null ? '<span class="badge badge-success">OK</span>' : 'NO') + '<br>' +
-					'<i class="far fa-file-pdf fa-lg" style="font-size: 18px;"> </i>'+'  PDF Factura: ' + (data['datosDoc'][0].FACT != null ? '<span class="badge badge-success">OK</span>' : 'NO') + '<br>' +
-					'<i class="far fa-file-pdf fa-lg" style="font-size: 18px;"> </i>'+'  PDF HES: ' + (data['datosDoc'][0].HES != null ? '<span class="badge badge-success">OK</span>' : 'NO') + '<br>' +
-					'<i class="far fa-file-pdf fa-lg" style="font-size: 18px;"> </i>'+'  PDF MIGO:  ' + (data['datosDoc'][0].MIGO != null ? '<span class="badge badge-success">OK</span>' : 'NO') + '<br>' +'<br>'+
-					
-					'<I Style=""> Documentos: </I> <br>';
-					
-					var tam_eti = data['datosEtiqueta'].length;
-					
-					if(tam_eti > 0){
-						for(var i=0;i<tam_eti;i++){
-							ruta_eti = '/Dazzle/Bandeja/descargar/' + data["datosEtiqueta"][i].carpeta.split("\\")[1] + '/' + data["datosEtiqueta"][i].nombreArchivo;
-							html += '<a href="'+ruta_eti+'" target="_blank"><i class="far fa-file-pdf fa-lg"> </i></a> '+ data['datosEtiqueta'][i].etiqueta+'<br>';
-						}	
-					}					
-					
-					html += '</td>';
-					
-					
-					if(data['datosSunat'].length > 0){
-					
-					html += '<td style="width: 18%;">' +
-					'<strong Style="font-size: 15px;color: #5288c1;">' + 'Validación SUNAT:' + '</strong>' + '<br>' +
-					'<strong Style="font-size: 13px;font-weight: bold;">' + 'Estado del contribuyente:' + '</strong>' + '<br>'+ 
-					'<span class="badge badge-success">OK</span>'+' '+data['datosSunat'][0].est_cont+'<br>' +'<br>' +
-					'<strong Style="font-size: 13px;font-weight: bold;">'+' ' + 'Condición de Domicilio del Contribuyente:' + '</strong>' + '<br>'+ 
-					'<span class="badge badge-success">OK</span>'+' '+data['datosSunat'][0].est_dom+ '<br>' +'<br>' +
-					'<strong Style="font-size: 13px;font-weight: bold;">'+' ' + 'Estado del comprobante:' + '</strong>' + '<br>'+  
-					'<span class="badge badge-success" >OK</span>'+' '+'<span style="text-transform: uppercase;">'+data['datosSunat'][0].est_comp+'</span>' + '<br>' +'<br>' +
-
-					'</td>' 
-					
-				}else
-				{
-					html += '<td style="width: 18%;">' +
-
-					'<strong Style="font-size: 15px;color: #5288c1;">' + 'Validación SUNAT:' + '</strong>' + '<br>' +
-					'Ruc Habido: ' +'<span class="badge badge-orange">Pendiente</span>' + '<br>' +
-					'Ruc Activo: ' + '<span class="badge badge-orange">Pendiente</span>' + '<br>' +
-					'Comprobante: ' + '<span class="badge badge-orange">Pendiente</span>' + '<br>' +
-
-					'</td>' 
-					
-				}
-					
-					html +='<td style="width: 45%;">' +
-					'<strong Style="font-size: 15px;color: #5288c1;">' + 'Validación SAP:' + '</strong>' + '<br>' +
-					'Archivos:' + '<br>'+
-				
-					'<table>'
-				
-				var importe_factura = 0;
-				var tam = data['datosFactura'].length;
-				if (tam > 0) {
-					for (var i = 0; i < tam; i++) {
-						
-						var ruta_archivo = "";
-						if(data['rutaFactura'].length > 0){
-							ruta_archivo = '/Dazzle/Bandeja/descargar/' + data["rutaFactura"][i].carpeta.split("\\")[1] + '/' + data["rutaFactura"][i].nombreArchivo;
-						}
-						
-						var mensaje="";
-						if(data['datosFactura'].length > 0){
+				var tam_correo = data['datosSunat'].length;
+				if(tam_correo > 0){
+					for(var a=0;a<tam_correo;a++){
+						var idCorreo = data['datosSunat'][a].idEmail;
+						html += '<table class="table table-bordered table-hover table-striped" cellpadding="5" style="padding-left:50px;text-align: left;width:100%">'+
+						'<tr style="background: white;">' +
+							'<td style="width: 20%;" >' +
+							'<strong Style="font-size: 15px;color: #5288c1;">' + 'Datos:' + '</strong>' + '<br>' +
+							'Id Correo: ' + data['datosSunat'][a].numeroEmail + '<br>' +
+							'Fecha / Hora:' + data['datosSunat'][a].fecha + '<br>' +
+							'Correo: ' + data['datosSunat'][a].correo + '<br>' +
+							'</td>';
 							
-							if (d['contabilizado_sap'] == 0 || d['contabilizado_sap'] == null) {
-								if (data['datosFactura'][i]['mensaje'] != null) {
-									arreglo_mensaje = data['datosFactura'][i]['mensaje'].split('-');
-
-									if (arreglo_mensaje[0] == '001') {
-										mensaje = '<span class="badge badge-success">OK</span> - APTO PARA CONTABILIZAR</span>';
-									}
-									else if (arreglo_mensaje[0] == '002') {
-										mensaje = '<span class="badge badge-success">FACTURA CONTABILIZADA</span>';
-									}
-									else {
-										mensaje = '<span class="badge badge-danger">ERROR: </span>' + arreglo_mensaje[1];
-									}
-								}
-								else {
-									mensaje = '<span class="badge badge-orange">PENDIENTE</span>';
-								}
+							html += '<td style="width: 22%;" >' +
+							'<strong Style="font-size: 15px;color: #5288c1;">' + 'Recepción de Documentos:' + '</strong>' + '<br>' +
+							'RUC:  ' + d['ruc']  +' / ' + d['NumFact'] + '<br>' +
+							' XML: <span class="badge badge-success">OK</span> <br>' +
+							'  PDF Factura: ' + (data['datosSunat'][a].FACT != null ? '<span class="badge badge-success">OK</span>' : 'NO') + '<br>' 
+							
+							if(data['datosSunat'][a].HES != null && data['datosSunat'][a].MIGO != null){
+									html += '  PDF HES: ' + '<span class="badge badge-success">OK</span>'+ '  Inconsistencia'+'<br>'+	
+									        '  PDF MIGO:  ' + '<span class="badge badge-success">OK</span>' +'  Inconsistencia'+ '<br>' 
+							}else{
+									html +='  PDF HES: ' + (data['datosSunat'][a].HES != null ? '<span class="badge badge-success">OK</span>' : 'NO') + '<br>' +
+										   '  PDF MIGO:  ' + (data['datosSunat'][a].MIGO != null ? '<span class="badge badge-success">OK</span>' : 'NO') + '<br>'
+							}
+		
+							html+= '<I> Documentos: </I> <br>';
+							
+							var tam_eti = data['datosEtiqueta']['E'+idCorreo].length;
+					
+							if(tam_eti > 0){
+								for(var i=0;i<tam_eti;i++){
+									ruta_eti = '/Dazzle/Bandeja/descargar/' + data["datosEtiqueta"]['E'+idCorreo][i].carpeta.split("\\")[1] + '/' + data["datosEtiqueta"]['E'+idCorreo][i].nombreArchivo;
+									html += '<a href="'+ruta_eti+'" target="_blank"><i class="far fa-file-pdf fa-lg"> </i></a> '+ data['datosEtiqueta']['E'+idCorreo][i].etiqueta+'<br>';
+								}	
+							}					
+					
+					
+						    html += '</td>';
+							
+							if(data['datosSunat'][a].est_comp == 'No existe' || data['datosSunat'][a].est_comp == 'Anulado'){
+								html += '<td style="width: 18%;">' +
+								'<strong Style="font-size: 15px;color: #5288c1;">' + 'Validación SUNAT:' + '</strong>' + '<br>' +
+								'<strong Style="font-size: 13px;font-weight: bold;">' + 'Estado del contribuyente:' + '</strong>' + '<br>'+ 
+								'<span class="badge badge-danger">ERROR</span>'+' '+data['datosSunat'][a].est_cont+'<br>' +'<br>' +
+								'<strong Style="font-size: 13px;font-weight: bold;">'+' ' + 'Condición de Domicilio del Contribuyente:' + '</strong>' + '<br>'+ 
+								'<span class="badge badge-danger">ERROR</span>'+' '+data['datosSunat'][a].est_dom+ '<br>' +'<br>' +
+								'<strong Style="font-size: 13px;font-weight: bold;">'+' ' + 'Estado del comprobante:' + '</strong>' + '<br>'+  
+								'<span class="badge badge-danger" >ERROR</span>'+' '+'<span style="text-transform: uppercase;">'+data['datosSunat'][a].est_comp+'</span>' + '<br>' +'<br>' +
+								'</td>' 
 								
+							}else
+							{
+								html += '<td style="width: 18%;">' +
+								'<strong Style="font-size: 15px;color: #5288c1;">' + 'Validación SUNAT:' + '</strong>' + '<br>' +
+								'<strong Style="font-size: 13px;font-weight: bold;">' + 'Estado del contribuyente:' + '</strong>' + '<br>'+ 
+								'<span class="badge badge-success">OK</span>'+' '+data['datosSunat'][a].est_cont+'<br>' +'<br>' +
+								'<strong Style="font-size: 13px;font-weight: bold;">'+' ' + 'Condición de Domicilio del Contribuyente:' + '</strong>' + '<br>'+ 
+								'<span class="badge badge-success">OK</span>'+' '+data['datosSunat'][a].est_dom+ '<br>' +'<br>' +
+								'<strong Style="font-size: 13px;font-weight: bold;">'+' ' + 'Estado del comprobante:' + '</strong>' + '<br>'+  
+								'<span class="badge badge-success" >OK</span>'+' '+'<span style="text-transform: uppercase;">'+data['datosSunat'][a].est_comp+'</span>' + '<br>' +'<br>' +
+								'</td>' 
 							}
-							else{
-								mensaje = '<span class="badge badge-success">FACTURA CONTABILIZADA</span>';
-							}
+									
+							
+							html +='<td style="width: 45%;">' +
+							'<strong Style="font-size: 15px;color: #5288c1;">' + 'Validación SAP:' + '</strong>' + '<br>';
+							
+							if(data['datosCorreo']['C'+idCorreo].length > 0){
+								html += '<span class="badge badge-pill badge-info">CORREO ENVIADO EL '+data['datosCorreo']['C'+idCorreo][0].fecha+' </span><br>';	
+							}					
 							
 							
-							
-						}						
-						importe_factura += data['datosFactura'][i]['monto'];
-						html += '<tr style="background: white;"><td><a class="btn " href="' + ruta_archivo + '" target="_blank"><i class="far fa-file-archive fa-lg"> </i></a></td><td> FACTURA: ' + data['datosFactura'][i]['NumFact'] + '<br></td><td>'+data['datosFactura'][i]['monto']+'</td><td>'+mensaje+'</td></tr>';
-					}
-				}
+							html += 'Archivos:' + '<br>'+						
+							'<table>';
+								
+								var importe_factura = 0;
+								var tam = data['datosFactura']['F'+idCorreo].length;
+								if (tam > 0) {
+									for (var i = 0; i < tam; i++) {
+										
+										var ruta_archivo = "";
+										if(data['rutaFactura']['R'+idCorreo].length > 0){
+											ruta_archivo = '/Dazzle/Bandeja/descargar/' + data["rutaFactura"]['R'+idCorreo][0].carpeta.split("\\")[1] + '/' + data["rutaFactura"]['R'+idCorreo][0].nombreArchivo;
+										}
+										
+										var mensaje="";
+											
+											if (d['contabilizado_sap'] == 0 || d['contabilizado_sap'] == null) {
+												if (data['datosFactura']['F'+idCorreo][i]['mensaje'] != null) {
+													arreglo_mensaje = data['datosFactura']['F'+idCorreo][i]['mensaje'].split('-');
 				
-				var tam = data['datosHesMigo'].length;
-				var suma_importe = 0;
-				if (tam > 0) {
-					for (var i = 0; i < tam; i++) {
-						var ruta_archivo = '/Dazzle/Contabilizar/descargar/' + data['datosHesMigo'][i]['numero_documento'] + '/' + data['datosHesMigo'][i]['idEmail'];
-						var mensaje="";
-						if (d['contabilizado_sap'] == 0 || d['contabilizado_sap'] == null) {
-							if (data['datosHesMigo'].length > 0) {
-
-							if (data['datosHesMigo'][i]['numero_mensaje'] == '001') {
-								mensaje = '<span class="badge badge-success">OK</span> - APTO PARA CONTABILIZAR<span>';
-							}
-							else if (data['datosHesMigo'][i]['numero_mensaje'] == '002') {
-								mensaje = '<span class="badge badge-success"> CONTABILIZADO</span>'  + data['datosHesMigo'][i]['texto_mensaje'];
-							}
-							else {
-								mensaje = '<span class="badge badge-danger">ERROR</span>:' + data['datosHesMigo'][i]['texto_mensaje'];
-							}
-						}	
-							
-						}else{
-							mensaje = '<span class="badge badge-success"> CONTABILIZADO</span>';
-						}					
-						suma_importe += data['datosHesMigo'][i]['neto'];
-						html += '<tr style="background: white;"><td><a class="btn o" href="' + ruta_archivo + '" target="_blank"><i class="far fa-file-archive fa-lg"> </i></a></td><td> '+data['datosHesMigo'][i]['etiqueta'] +': ' + data['datosHesMigo'][i]['numero_documento'] + '<br></td><td>'+data['datosHesMigo'][i]['neto'].toFixed(2)+'</td><td>'+mensaje+'</td></tr>';
-					}
-					sin_igv = importe_factura.toFixed(2) - suma_importe;
-					html += '<tr><td colspan="2">TOLERANCIA: </td><td>'+(  sin_igv.toFixed(2) )+'</td></tr>';
+													if (arreglo_mensaje[0] == '001') {
+														mensaje = '<span class="badge badge-success">OK</span> - APTO PARA CONTABILIZAR</span>';
+													}
+													else if (arreglo_mensaje[0] == '017') {
+														mensaje = '<span class="badge badge-success">FACTURA CONTABILIZADA</span>';
+													}
+													else {
+														mensaje = '<span class="badge badge-danger">ERROR: </span>' + arreglo_mensaje[1];
+													}
+												}
+												else {
+													mensaje = '<span class="badge badge-orange">PENDIENTE</span>';
+												}
+												
+											}
+											else{
+												mensaje = '<span class="badge badge-success">FACTURA CONTABILIZADA</span>';
+											}			
+															
+										importe_factura += data['datosFactura']['F'+idCorreo][i]['monto'];
+										if(ruta_archivo == ""){
+											html += '<tr style="background: white;"><td></td><td> FACTURA: ' + data['datosFactura']['F'+idCorreo][i]['NumFact'] + '<br></td><td>'+data['datosFactura']['F'+idCorreo][i]['monto']+'</td><td>'+mensaje+'</td></tr>';
+										}
+										else{
+										    html += '<tr style="background: white;"><td><a class="btn " href="' + ruta_archivo + '" target="_blank"><i class="far fa-file-archive fa-lg"> </i></a></td><td> FACTURA: ' + data['datosFactura']['F'+idCorreo][i]['NumFact'] + '<br></td><td>'+data['datosFactura']['F'+idCorreo][i]['monto']+'</td><td>'+mensaje+'</td></tr>';
+										}
+									}
+								}	
+								
+							var tam = data['datosHesMigo']['H'+idCorreo].length;
+							var suma_importe = 0;
+							if (tam > 0) {
+								for (var i = 0; i < tam; i++) {
+									var ruta_archivo = '/Dazzle/Contabilizar/descargar/' + data['datosHesMigo']['H'+idCorreo][i]['numero_documento'] + '/' + data['datosHesMigo']['H'+idCorreo][i]['idEmail'];
+									var mensaje="";
+									if (d['contabilizado_sap'] == 0 || d['contabilizado_sap'] == null) {
+										if (data['datosHesMigo']['H'+idCorreo].length > 0) {
 			
+										if (data['datosHesMigo']['H'+idCorreo][i]['numero_mensaje'] == '001') {
+											mensaje = '<span class="badge badge-success">OK</span> - APTO PARA CONTABILIZAR<span>';
+										}
+										else if (data['datosHesMigo']['H'+idCorreo][i]['numero_mensaje'] == '002') {
+											mensaje = '<span class="badge badge-success"> CONTABILIZADO</span>'  + data['datosHesMigo']['H'+idCorreo][i]['texto_mensaje'];
+										}
+										else {
+											mensaje = '<span class="badge badge-danger">ERROR</span>:' + data['datosHesMigo']['H'+idCorreo][i]['texto_mensaje'];
+										}
+									}	
+										
+									}else{
+										mensaje = '<span class="badge badge-success"> CONTABILIZADO</span>';
+									}					
+									suma_importe += data['datosHesMigo']['H'+idCorreo][i]['neto'];
+									html += '<tr style="background: white;"><td><a class="btn o" href="' + ruta_archivo + '" target="_blank"><i class="far fa-file-archive fa-lg"> </i></a></td><td> '+data['datosHesMigo']['H'+idCorreo][i]['etiqueta'] +': ' + data['datosHesMigo']['H'+idCorreo][i]['numero_documento'] + '<br></td><td>'+data['datosHesMigo']['H'+idCorreo][i]['neto'].toFixed(2)+'</td><td>'+mensaje+'</td></tr>';
+								}
+								sin_igv = importe_factura.toFixed(2) - suma_importe;
+								html += '<tr><td colspan="2">TOLERANCIA: </td><td>'+(  sin_igv.toFixed(2) )+'</td></tr>';
+								
+						
+							}										
+							
+							html += '</table>';
+							if(data['numSap'][0].num_sap != null){
+								html += '<span class="badge badge-info pull-right"> N° DOC. SAP: '+data['numSap'][0].num_sap+'</span>';
+							}
+							html += '</td></tr>' +
+							'</table>';
+								
+					}	
 				}
-				
-				html += '</table></td>'+
-
-				/*var tam = data['datosEtiqueta'].length;
-				if (tam > 0) {
-					for (var i = 0; i < tam; i++) {
-						var ruta_archivo = '/Bandeja/descargar/' + data["datosEtiqueta"][i].carpeta.split("\\")[1] + '/' + data["datosEtiqueta"][i].nombreArchivo;
-						html += data['datosEtiqueta'][i]['etiqueta'] + ': ' + '<a class="badge badge-success" href="' + ruta_archivo + '" target="_blank">' + data['datosEtiqueta'][i]['nombre_original'] + '</a>' + '<br>';
-					}
-				}*/
-				
-				
-				
-				
-				'</tr>' +
-				'</table>';
 				
 
 			}
-			///////////--detalle--/////////
 		}
 	});
 
@@ -197,7 +201,7 @@ $(document).ready(function() {
 
 
 	table = $("#tabla_contenido").DataTable({
-		dom: 'Bfrti',
+		dom: 'Bfirti',
 		
 		paging:false,
 		"order": [[1, "ASC"]],
@@ -300,6 +304,7 @@ $(document).ready(function() {
 			{ "mData": "ruc" },
 			{ "mData": "tipo_xml" },
 			{ "mData": "NumFact" },
+			{ "mData": "fecha" },
 			{
 				data: null,
 				render: function(data, type, row, meta) {
@@ -348,13 +353,13 @@ $(document).ready(function() {
 					var word = ""
 					
 					if(data["contabilizado_sap"] == 0 || data["contabilizado_sap"] == null){
-						if (data['numero_mensaje'] == '001') {
+						if (data['num_mensaje'] == '001') {
 								word = '<span class="badge badge-warning">POR CONTABILIZAR</span>';							
 						}
-						else if(data['numero_mensaje'] == '002') {
+						else if(data['num_mensaje'] == '017') {
 								word = '<span class="badge badge-success">CONTABILIZADO</span>';
 						}
-						else if(data['numero_mensaje'] != '001' && data['numero_mensaje'] != '002'){
+						else if(data['num_mensaje'] != '001' && data['num_mensaje'] != '017'){
 							word = '<span class="badge badge-danger">ERROR</span>';
 						}
 						else{

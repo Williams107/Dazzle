@@ -24,17 +24,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 @SessionAttributes("DatosUsuario")
 //#MG
-@RequestMapping("Rcontenido")
-public class ReporconteController {
+@RequestMapping("RDcontenido")
+public class ReportedoscontController {
 
 	@Autowired
 	private UsuariosModel usuario;
 	
-	@GetMapping("/contenido")
+	@GetMapping("/contenidoD")
 	public String contar(Model model) {
 		List<Map<String, Object>> empresas = usuario.consultar_empresas();
 		model.addAttribute("empresas", empresas);
-		return "reportes/reportecontenido";
+		return "reportes/reporte2_contenido";
 	}
 	
 		
@@ -67,15 +67,7 @@ public class ReporconteController {
 			}
 			
 			if(!estado.isEmpty()) {
-				if(estado.equals("001")) {
-					consulta += " and vc.num_mensaje='"+estado+"' and vc.contabilizado_sap=0 ";
-				}
-				else if(estado.equals("017")) {
-					consulta += " and (vc.num_mensaje='"+estado+"' or vc.contabilizado_sap=1) ";
-				}
-				else {
-					consulta += " and (vc.num_mensaje not in ('001','017') or vc.num_mensaje is null) ";
-				}				
+				consulta += " and vc.numero_mensaje='"+estado+"' ";
 			}
 			
 			if(!fecha_ini.isEmpty()) {
@@ -112,44 +104,37 @@ public class ReporconteController {
 		String json = "";
 		HashMap<String, Object> map = new HashMap<>();			
 		try {	
-			
+					
 			String[] variables = id.split(";");
 			
-			List<Map<String, Object>> datos_sunat = reporte.obtener_detalle_sunat(variables[2],variables[1]);
-			List<Map<String, Object>> num_sap = reporte.consultar_num_sap(variables[2],variables[1]);
+			List<Map<String, Object>> datos_correos = reporte.obtener_detalle_correo(id);
+			//List<Map<String, Object>> datos_sunat = reporte.obtener_detalle_sunat(id);
+		//	List<Map<String, Object>> datos_etiquetas_migo= reporte.obtener_detalle_etiquetas_migo(id);
+	//		List<Map<String, Object>> datos_etiquetas_ord= reporte.obtener_detalle_etiquetas_ord(id);
 			
-			HashMap<String, Object> map_factura = new HashMap<>();
-			HashMap<String, Object> map_ruta_factura = new HashMap<>();
-			HashMap<String, Object> map_hes_migo = new HashMap<>();
-			HashMap<String, Object> map_etiquetas = new HashMap<>();			
-			HashMap<String, Object> map_correos = new HashMap<>();
 			
-			for (Map<String, Object> map_sunat : datos_sunat) {
-				List<Map<String, Object>> datos_factura = reporte.obtener_detalle_factura(String.valueOf(map_sunat.get("idEmail")));
-				map_factura.put("F"+String.valueOf(map_sunat.get("idEmail")), datos_factura);
-				
-				List<Map<String, Object>> ruta_factura = reporte.obtener_ruta_factura(String.valueOf(map_sunat.get("idEmail")));
-				map_ruta_factura.put("R"+String.valueOf(map_sunat.get("idEmail")), ruta_factura);
-				
-				List<Map<String, Object>> datos_hes_migo = reporte.obtener_detalle_hes_migo(String.valueOf(map_sunat.get("idEmail")));
-				map_hes_migo.put("H"+String.valueOf(map_sunat.get("idEmail")), datos_hes_migo);
-				
-				List<Map<String, Object>> datos_etiquetas = reporte.obtener_detalle_etiquetas(String.valueOf(map_sunat.get("idEmail")));
-				map_etiquetas.put("E"+String.valueOf(map_sunat.get("idEmail")), datos_etiquetas);
-				
-				List<Map<String, Object>> datos_correo = reporte.obtener_correo_enviado(variables[2],variables[1]);
-				map_correos.put("C"+String.valueOf(map_sunat.get("idEmail")), datos_correo);
-			}	
-						
-			if(!datos_sunat.isEmpty()) {									
+			List<Map<String, Object>> ruta_factura = reporte.obtener_ruta_factura(variables[0]);
+			
+			//List<Map<String, Object>> datos_factura = reporte.obtener_detalle_factura(variables[2],variables[1]);			
+			//List<Map<String, Object>> datos_hes_migo = reporte.obtener_detalle_hes_migo(variables[2],variables[1]);
+			
+			
+			
+			List<Map<String, Object>> datos_doc = reporte.obtener_detalle_documentos(variables[2],variables[1]);
+			
+			if(!datos_correos.isEmpty()) {									
 				map.put("code", 1);
-				map.put("datosCorreo",map_correos);
-				map.put("datosSunat",datos_sunat);
-				map.put("datosEtiqueta",map_etiquetas);
-				map.put("numSap",num_sap);
-				map.put("datosFactura",map_factura);
-				map.put("datosHesMigo",map_hes_migo);
-				map.put("rutaFactura",map_ruta_factura);
+				map.put("datosCorreo",datos_correos);
+				//map.put("datosSunat",datos_sunat);
+				//map.put("datosEtiqueta_migo",datos_etiquetas_migo);
+				//map.put("datosEtiqueta_ord",datos_etiquetas_ord);
+				
+				map.put("rutaFactura",ruta_factura);
+				
+				//map.put("datosFactura",datos_factura);
+				//map.put("datosHesMigo",datos_hes_migo);
+				
+				map.put("datosDoc",datos_doc);
 				json = new ObjectMapper().writeValueAsString(map);
 			}
 			else {
@@ -163,6 +148,11 @@ public class ReporconteController {
         }						
 		return json;
 	}
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value="/buscarCorreo", method = RequestMethod.POST, headers="Accept=application/json;charset=UTF-8", produces="application/json;charset=UTF-8")
 	public @ResponseBody

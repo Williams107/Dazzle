@@ -94,44 +94,24 @@ public List<Map<String, Object>> consultar_filtro(String consulta){
 		return filas;
 	}
 	
-	
-	
-	/*public List<Map<String, Object>> obtener_reporte(String consulta){
-		
-		String sql = "  select distinct em.fecha, vp.idEmail, vp.tipo_xml, vp.NumFact, vp.ruc, vp.nombre_empresa, vp.ruc_receptor, "
-				+ "IIF(tipo_xml='GUIA','XML ES DE GUIA',IIF(vp.idFactura>0,'VALIDO','XML NO COINCIDE CON PDF')) AS estado_validacion, "
-				+ "(select top 1 estado from validacion_email where idEmail=vp.idEmail and etiqueta='HES' and estado=1) as HES, "
-				+ "(select top 1 estado from validacion_email where idEmail=vp.idEmail and etiqueta='MIGO' and estado=1) as MIGO, "
-				+ "(select top 1 estado from validacion_email where idEmail=vp.idEmail and etiqueta='FACTURA' and estado=1) as FACTURA, "
-				+ "(select top 1 IIF(estadoValidacion=1,1,0) as estado from validacion_xml where estado=1 and idArchivo=vp.idArchivo) as XMLS, "
-				+ "(select top 1 estadoCp from respuesta_sunat where idEmail=vp.idEmail) as validacion_sunat, "
-				+ "(select top 1 sociedad from parametro_empresa where idEmpresa=e.idEmpresa) as nombre, "
-				+ "vp.validacion_sap as SAP "
-				+ " from validacion_xml_pdf as vp  "
-				+ " inner join empresa as e on vp.ruc_receptor=e.ruc "
-				+ " inner join email as em on vp.idEmail=em.idEmail "
-				+ " where vp.estado=1 and "
-				+ " vp.tipo_xml='FACTURA' "+consulta+ " order by vp.idEmail desc";
-		List<Map<String, Object>> filas = jdbc.queryForList(sql);
-		return filas;
-}*/
+
 	
 public List<Map<String, Object>> obtener_reporte(String consulta){
 		
-		String sql = " select distinct vp.fecha_emision, vp.tipo_xml, vp.NumFact, vp.ruc, vp.nombre_empresa, vp.ruc_receptor, "
-				+ "e.nombre, vc.numero_mensaje, vc.contabilizado_sap, "
-				+ "max(vp.idEmail) as idEmail, max(vdf.estadoValidacion) as documentos,max(rs.estadoCp) as validacion_sunat, "
-				+ "max(vp.validacion_sap) as SAP "
-				+ " from validacion_xml_pdf as vp  "
-				+ " inner join empresa as e on vp.ruc_receptor=e.ruc "
-				+ " left join validacion_documentos_formales as vdf on vp.idEmail=vdf.idEmail "
-				+ " left join respuesta_sunat as rs on vp.idEmail=rs.idEmail "
-				+ " left join verificacion_contabilizacion as vc on (vp.NumFact=vc.numero_documento_sunat and vp.ruc=vc.ruc_identificacion_fiscal) "
-				+ "where vp.estado=1 and "
-				+ " vp.tipo_xml='FACTURA' "+consulta
-				+ " group by vp.fecha_emision, vp.tipo_xml, vp.NumFact, vp.ruc, vp.nombre_empresa, vp.ruc_receptor, "
-				+ "e.nombre, vc.numero_mensaje, vc.contabilizado_sap  "
-				+ " order by vp.fecha_emision desc";
+	String sql = " select distinct FORMAT( vp.fecha_emision, 'dd/MM/yyyy', 'en-US' ) as fecha,vp.fecha_emision, vp.tipo_xml, vp.NumFact, vp.ruc, vp.nombre_empresa, vp.ruc_receptor, "
+			+ "e.nombre, vc.num_mensaje,vc.contabilizado_sap, "
+			+ "max(vp.idEmail) as idEmail, max(vdf.estadoValidacion) as documentos,max(rs.estadoCp) as validacion_sunat, "
+			+ "max(vp.validacion_sap) as SAP "
+			+ "from validacion_xml_pdf as vp "
+			+ "inner join empresa as e on vp.ruc_receptor=e.ruc "
+			+ "left join validacion_documentos_formales as vdf on vp.idEmail=vdf.idEmail "
+			+ "left join respuesta_sunat as rs on vp.idEmail=rs.idEmail "
+			+ "left join verificacion_facturas as vc on (vp.NumFact=vc.num_fact and vp.ruc=vc.ruc) "
+			+ "where vp.estado=1 and "
+			+ "vp.tipo_xml='FACTURA' " + consulta
+			+ " group by vp.fecha_emision, vp.tipo_xml, vp.NumFact, vp.ruc, vp.nombre_empresa, vp.ruc_receptor, "
+			+ "e.nombre, vc.num_mensaje, vc.contabilizado_sap "
+			+ "order by vp.fecha_emision desc";
 		List<Map<String, Object>> filas = jdbc.queryForList(sql);
 		return filas;
 }
@@ -167,23 +147,58 @@ public List<Map<String, Object>> obtener_detalle_correo(String idEmail){
 	return filas;
 }
 
-public List<Map<String, Object>> obtener_detalle_sunat(String idEmail){
+public List<Map<String, Object>> obtener_detalle_sunat(String num_fact, String ruc){
 	
-	String sql = " select ec.nombreEstado as est_comp, dc.nombreEstado as est_dom, et.nombreEstado as est_cont "
-			+ "  from respuesta_sunat as rs, estadocomprobante as ec, "
-			+ "  domicilio_contribuyente dc, "
-			+ "  estado_contribuyente as et where rs.estadoCp=ec.codigo and "
-			+ "  rs.estadoRuc=et.codigo and rs.condDomiRuc=dc.codigo and "
-			+ "  rs.idEmail='"+idEmail+"'";
+	String sql = " select distinct vx.idEmail, ec.nombreEstado as est_comp, dc.nombreEstado as est_dom, et.nombreEstado as est_cont, "
+			+ "e.idEmail, e.numeroEmail, FORMAT(e.fecha,'dd/MM/yyyy hh:mm:s tt') as fecha, e.correo, "
+			+ "hes_migo.FACT, hes_migo.HES, hes_migo.MIGO "
+			+ "from respuesta_sunat as rs "
+			+ "left join estadocomprobante as ec on rs.estadoCp=ec.codigo "
+			+ "left join domicilio_contribuyente dc on rs.condDomiRuc=dc.codigo "
+			+ "left join estado_contribuyente as et on rs.estadoRuc=et.codigo "
+			+ "inner join validacion_xml_pdf as vx on rs.idEmail=vx.idEmail "
+			+ "inner join email as e on vx.idEmail=e.idEmail "
+			+ "left join ( "
+			+ "select distinct max(case when ve.etiqueta = 'FACTURA' then 1 end) FACT, "
+			+ "max(case when ve.etiqueta = 'MIGO' then 1 end) MIGO, "
+			+ "max(case when ve.etiqueta = 'HES' then 1 end) HES, "
+			+ "ve.idEmail "
+			+ "from validacion_email as ve, "
+			+ "validacion_xml_pdf as vxp "
+			+ "where ve.idEmail=vxp.idEmail  and "
+			+ "ve.estado=1 and vxp.estado=1 "
+			+ "group by ve.idEmail "
+			+ ") as hes_migo on (rs.idEmail=hes_migo.idEmail) "
+			+ "where rs.estado=1 and e.estado=1 and rs.estado=1 and ec.estado=1 and dc.estado=1 and et.estado=1 and "
+			+ "vx.NumFact='"+num_fact+"' and vx.ruc='"+ruc+"'";
 	List<Map<String, Object>> filas = jdbc.queryForList(sql);
 	return filas;
 }
 
 public List<Map<String, Object>> obtener_detalle_etiquetas(String idEmail){
 	
-	String sql = "  select ae.carpeta, ae.nombreArchivo, ve.etiqueta "
-			+ "  from validacion_email as ve, archivos_email as ae "
-			+ "  where ve.idArchivo=ae.idArchivo and ve.idEmail='"+idEmail+"'";
+	String sql = "  select distinct ve.etiqueta, ae.carpeta, ae.nombreArchivo "
+			+ "from validacion_email as ve, validacion_xml_pdf as vxp, archivos_email  as ae "
+			+ "where ve.idEmail=vxp.idEmail  and ve.idArchivo=ae.idArchivo and ae.estado=1 and "
+			+ "ve.estado=1 and vxp.estado=1 and ve.idEmail='"+idEmail+"' ";
+	List<Map<String, Object>> filas = jdbc.queryForList(sql);
+	return filas;
+}
+
+public List<Map<String, Object>> consultar_num_sap(String num_fact, String ruc){
+	String sql = "  select IIF(vx.num_fact_sap ='', "
+			+ "  (select numero_factura_SAP from respuesta_contabilizacion where numero_documento_sunat=vx.num_fact and codigo_proveedor=vx.cuenta_proveedor) "
+			+ "  ,vx.num_fact_sap) as num_sap  from verificacion_facturas as vx where vx.estado=1 and "
+			+ "  vx.num_fact='"+num_fact+"' and vx.ruc='"+ruc+"' ";
+	List<Map<String, Object>> filas = jdbc.queryForList(sql);
+	return filas;
+}
+
+public List<Map<String, Object>> obtener_correo_enviado(String num_fact, String ruc){
+	
+	String sql = "  select FORMAT(fechaRegistro,'dd/MM/yyyy hh:mm:s tt') as fecha , "
+			+ "idEmail, num_fact, ruc, correo_enviado "
+			+ "from email_contabilizados where estado=1 and num_fact='"+num_fact+"' and ruc='"+ruc+"' ";
 	List<Map<String, Object>> filas = jdbc.queryForList(sql);
 	return filas;
 }
@@ -208,50 +223,39 @@ public List<Map<String, Object>> obtener_ruta_factura(String idEmail){
 
 public List<Map<String, Object>> obtener_detalle_factura(String idEmail){
 	
-	String sql = "  select vx.idEmail, vx.NumFact, ae.carpeta, ae.nombreArchivo, (convert(real,vx.monto) - convert(real,vx.igv)) as monto, "
-			+ "(select top 1 concat(numero_mensaje,'-', texto_mensaje) from verificacion_contabilizacion where idEmail=vx.idEmail) as mensaje "
+	String sql = "  select top 1 vx.NumFact, ae.carpeta, ae.nombreArchivo, (convert(real,vx.monto) - convert(real,vx.igv)) as monto, "
+			+ "(select top 1 concat(num_mensaje,'-', texto_mensahe) from verificacion_facturas where num_fact=vx.NumFact and ruc=vx.ruc) as mensaje "
 			+ "from validacion_xml_pdf as vx, "
 			+ "archivos_email as ae "
-			+ "where vx.idArchivo=ae.idArchivo and vx.NumFact<>'NN' and vx.idEmail='"+idEmail+"'";
+			+ "where vx.idArchivo=ae.idArchivo and vx.tipo_xml='FACTURA' and vx.idEmail='"+idEmail+"' order by vx.idEmail desc";
 	List<Map<String, Object>> filas = jdbc.queryForList(sql);
 	return filas;
 }
 
 public List<Map<String, Object>> obtener_detalle_hes_migo(String idEmail){
 	
-	String sql = "select distinct ve.etiqueta, vf.tipo_documento, vf.numero_documento, sum(distinct convert(real, vf.valor_neto)) as neto,  vf.sociedad, vf.idEmail, vf.numero_mensaje, vf.texto_mensaje "
-			+ "from verificacion_contabilizacion as vf, validacion_email as ve where "
-			+ "vf.idEmail=ve.idEmail  and ve.etiqueta in ('HES','MIGO') and vf.estado=1 and vf.idEmail='"+idEmail+"' "
-			+ "group by vf.numero_documento, vf.numero_documento_compra, vf.idEmail, vf.tipo_documento, vf.sociedad,"
-			+ "ve.etiqueta, vf.numero_mensaje, vf.texto_mensaje ";
+	String sql = "select distinct vf.idEmail, IIF(vf.tipo_documento='EM','MIGO', 'HES') as etiqueta, vf.tipo_documento, vf.numero_documento, "
+			+ "(select sum(x.monto)  from "
+			+ "(select distinct convert(real, valor_neto) as monto, posicion_documento from verificacion_contabilizacion where "
+			+ " numero_documento=vf.numero_documento "
+			+ "and numero_documento_sunat=vf.numero_documento_sunat and ruc_identificacion_fiscal=vf.ruc_identificacion_fiscal) x) as  neto , "
+			+ "vf.sociedad, vf.numero_mensaje, vf.texto_mensaje "
+			+ "from verificacion_contabilizacion as vf where "
+			+ "vf.estado=1 and vf.idEmail='"+idEmail+"' ";
 	List<Map<String, Object>> filas = jdbc.queryForList(sql);
 	return filas;
 }
 
-public List<Map<String, Object>> obtener_detalle_documentos(String idEmail){
+public List<Map<String, Object>> obtener_detalle_documentos(String fact, String ruc){
 	
-	String sql = "select top 1 "
-			+ "(select top 1 ae.idArchivo from archivos_email as ae, validacion_email ve "
-			+ "where ae.idArchivo=ve.idArchivo and ae.estado=1 and ve.estado=1 and "
-			+ "ae.idEmail=e.idEmail and ve.etiqueta='HES' ) as HES, "
-			+ "(select TOP 1 ae.idArchivo from archivos_email as ae, validacion_email ve "
-			+ "where ae.idArchivo=ve.idArchivo and ae.estado=1 and ve.estado=1 and ae.idEmail=e.idEmail and "
-			+ "ve.etiqueta='MIGO') as MIGO, "
-			+ "(select TOP 1 ae.idArchivo from archivos_email as ae, validacion_email ve "
-			+ "where ae.idArchivo=ve.idArchivo and ae.estado=1 and ve.estado=1 and ae.idEmail=e.idEmail and "
-			+ "ve.etiqueta='FACTURA' ) as FACT, "
-			+ "(select TOP 1 ae.idArchivo from archivos_email as ae, validacion_email ve "
-			+ "where ae.idArchivo=ve.idArchivo and ae.estado=1 and ve.estado=1 and ae.idEmail=e.idEmail and "
-			+ "ve.etiqueta='CONFORMIDAD' ) as CONF, "
-			+ "(select TOP 1 ae.idArchivo from archivos_email as ae, validacion_email ve "
-			+ "where ae.idArchivo=ve.idArchivo and ae.estado=1 and ve.estado=1 and ae.idEmail=e.idEmail and "
-			+ "ve.etiqueta='ORDEN_COMPRA' ) as OC, "
-			+ "(select TOP 1 ae.idArchivo from archivos_email as ae, validacion_xml vx where "
-			+ "ae.idArchivo=vx.idArchivo and ae.estado=1 and vx.estado=1 and ae.idEmail=e.idEmail ) as XMLS , "
-			+ "e.idEmail, "
-			+ "vx.ruc, vx.NumFact "
-			+ "from email as e, validacion_xml_pdf as vx where e.estado = 1 and e.idEmail=vx.idEmail AND vx.tipo_xml='FACTURA' "
-			+ "and e.idEmail='"+idEmail+"'";
+	String sql = " select distinct "
+			+ "max(case when ve.etiqueta = 'FACTURA' then 1 end) FACT, "
+			+ "max(case when ve.etiqueta = 'MIGO' then 1 end) MIGO, "
+			+ "max(case when ve.etiqueta = 'HES' then 1 end) HES "
+			+ "from validacion_email as ve, "
+			+ "validacion_xml_pdf as vxp "
+			+ "where ve.idEmail=vxp.idEmail  and "
+			+ "ve.estado=1 and vxp.estado=1 and vxp.NumFact='"+fact+"' and vxp.ruc='"+ruc+"' ";
 	List<Map<String, Object>> filas = jdbc.queryForList(sql);
 	return filas;
 }
